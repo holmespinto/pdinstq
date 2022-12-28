@@ -15,7 +15,8 @@ type CalendarProps = {
 };
 
 const Calendar = ({ onDateClick, onEventClick, onDrop, events }: CalendarProps): React$Element<React$FragmentType> => {
-    /*
+
+  /*
      * handle calendar methods
      */
     const handleDateClick = (arg) => {

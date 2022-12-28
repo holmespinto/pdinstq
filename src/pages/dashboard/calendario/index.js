@@ -7,12 +7,14 @@ import classNames from 'classnames';
 
 // components
 import PageTitle from '../../../components/PageTitle';
+import {setItemStorage} from '../components/itemStorage.ts';
 
 import Calendar from './Calendar';
 import AddEditEvent from './AddEditEvent';
 
 // dummy data
-import { defaultEvents } from './data';
+import { defaultEvents,docentes } from './data';
+
 
 const SidePanel = () => {
     // external events
@@ -98,6 +100,7 @@ const CalendarApp = (state: CalendarAppState): React$Element<React$FragmentType>
      * modal handeling
      */
     const [show, setShow] = useState(false);
+    const [idCategoria, setIdCategoria] = useState(0);
     const onCloseModal = () => {
         setShow(false);
         setEventData({});
@@ -112,6 +115,12 @@ const CalendarApp = (state: CalendarAppState): React$Element<React$FragmentType>
     const [events, setEvents] = useState([...defaultEvents]);
     const [eventData, setEventData] = useState({});
     const [dateInfo, setDateInfo] = useState({});
+    const [todoData, setTodoData] = useState([
+      {
+          id: 1,
+          text: ''
+      },
+  ]);
 
     useEffect(() => {
         // create dragable events
@@ -121,6 +130,17 @@ const CalendarApp = (state: CalendarAppState): React$Element<React$FragmentType>
         });
     }, []);
 
+    const setMultiSelections = (arg) => {
+      if(arg?.target?.value){
+        let newTodo = [...todoData];
+        newTodo.push({
+            id: todoData.length + 1,
+            text: arg?.target?.value
+        });
+        //console.log('onSubmitEvent',newTodo);
+        setTodoData(newTodo);
+      }
+  };
     /*
     calendar events
     */
@@ -164,18 +184,41 @@ const CalendarApp = (state: CalendarAppState): React$Element<React$FragmentType>
     };
 
     /*
-    on add event 
+    on add event
     */
-    const onAddEvent = (data) => {
+    const onAddEvent = (data,idscategorias,categorias) => {
+
         const modifiedEvents = [...events];
         const event = {
             id: modifiedEvents.length + 1,
             title: data.title,
             start: dateInfo ? dateInfo.date : new Date(),
             className: data.className,
+            idCategoria: idscategorias.join(","),
+            titleCategoria: categorias.join(","),
+            asignar: data.asignar,
         };
         modifiedEvents.push(event);
         setEvents(modifiedEvents);
+       const categ = [];
+        for (let i = 0; i < idscategorias.length; i++) {
+        if(idscategorias[i])
+        categ.push({
+          id: modifiedEvents.length + 1,
+          title: data.title,
+          start: dateInfo ? dateInfo.date : new Date(),
+          className: data.className,
+          idCategoria: idscategorias.join(","),
+          titleCategoria: categorias.join(","),
+          asignar: data.asignar,
+          })
+        }
+        setItemStorage({
+          data:  categ[0],
+          item: 'storesDataCalendary',
+          typeOfStorage: localStorage,
+        })
+        //console.log(categ[0]);
         onCloseModal();
     };
 
@@ -202,6 +245,15 @@ const CalendarApp = (state: CalendarAppState): React$Element<React$FragmentType>
         onCloseModal();
     };
 
+    useEffect(() => {
+      const pagesInSearch = () => {
+        const  query = window.location.search
+        const idurl =query?.replace(/\?p=/g, '')
+        setIdCategoria(Number(idurl))
+      }
+      pagesInSearch()
+    }, [])
+
     return (
         <>
             <PageTitle
@@ -219,7 +271,7 @@ const CalendarApp = (state: CalendarAppState): React$Element<React$FragmentType>
                             <Row>
                                 <Col lg={3}>
                                     <div className="d-grid">
-                                        {/* add events 
+                                        {/* add events
                                         <Button
                                             className="btn btn-lg font-16 btn-danger"
                                             id="btn-new-event"
@@ -256,6 +308,10 @@ const CalendarApp = (state: CalendarAppState): React$Element<React$FragmentType>
                     onUpdateEvent={onUpdateEvent}
                     onRemoveEvent={onRemoveEvent}
                     onAddEvent={onAddEvent}
+                    setMultiSelections={setMultiSelections}
+                    todoData={todoData}
+                    docentes={docentes}
+                    idCategoria={idCategoria}
                 />
             ) : null}
         </>

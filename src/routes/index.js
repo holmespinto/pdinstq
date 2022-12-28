@@ -51,7 +51,12 @@ const dashboardRoutes = {
             name: 'Calendario',
             component: calendario,
             route: PrivateRoute,
-        }
+        },{
+          path: '/dashboard/calendario',
+          name: 'Calendario',
+          component: calendario,
+          route: PrivateRoute,
+      }
     ],
 };
 

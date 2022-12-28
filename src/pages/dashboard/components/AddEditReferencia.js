@@ -1,13 +1,13 @@
 // @flow
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { Modal, Row, Col, Button } from 'react-bootstrap';
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 
 // components
-import { FormInput } from '../../../components/';
-
+import { FormInput } from '../../../components';
+import  TableItems  from './TableItems';
 type AddEditEventProps = {
     isOpen?: boolean,
     onClose?: () => void,
@@ -18,7 +18,7 @@ type AddEditEventProps = {
     onAddEvent: (value: any) => void,
 };
 
-const AddEditEvent = ({
+const AddEditReferencia = ({
     isOpen,
     onClose,
     isEditable,
@@ -29,7 +29,20 @@ const AddEditEvent = ({
 }: AddEditEventProps): React$Element<any> => {
     // event state
     const [event] = useState(eventData);
+    const [idRef, setidRef] = React.useState(0);
+    const [list] = useState(eventData);
+    //console.log('listData',list.canastas[0][0].items)
+    const [events, setEvents] = useState([]);
 
+    const onDateValueChange = (arg) => {
+      setidRef(arg)
+    };
+
+    useEffect(() => {
+      (list?.IdCategorias===1)?
+      setEvents([list?.canastas[0][idRef]?.items]):setEvents([list?.canastas[0][0]?.items])
+
+  }, [idRef,list]);
     /*
      * form validation schema
      */
@@ -55,39 +68,15 @@ const AddEditEvent = ({
      * handle form submission
      */
     const onSubmitEvent = (data) => {
+      //console.log(data);
         isEditable ? onUpdateEvent(data) : onAddEvent(data);
     };
-    const externalEvents = [
-        {
-            id: 1,
-            textClass: 'text-success',
-            className: 'bg-success',
-            title: 'Devuelto',
-        },
-        {
-            id: 2,
-            textClass: 'text-info',
-            className: 'bg-info',
-            title: 'Reservado',
-        },
-        {
-            id: 3,
-            textClass: 'text-warning',
-            className: 'bg-warning',
-            title: 'Entregado',
-        },
-        {
-            id: 4,
-            textClass: 'text-danger',
-            className: 'bg-danger',
-            title: 'Desabilitado',
-        },
-    ];
+    console.log(events)
     return (
         <Modal show={isOpen} onHide={onClose} backdrop="static" keyboard={false}>
             <Modal.Header className="pb-2 px-4 border-bottom-0" closeButton>
                 <Modal.Title id="modal-title">
-                    <h5> {isEditable ? 'Edit Event' : 'Add New Event'} </h5>
+                    <h5> {isEditable ? 'Edit Canasta' : 'Add Instrumento'} </h5>
                 </Modal.Title>
             </Modal.Header>
             <Modal.Body className="px-4 pb-4 pt-0">
@@ -96,33 +85,30 @@ const AddEditEvent = ({
                         <Col sm={12}>
                             <FormInput
                                 type="text"
-                                label="Event Name"
-                                name="title"
+                                label="Descripcion"
+                                name="Descripcion"
                                 className="form-control"
-                                placeholder="Insert Event Name"
+                                placeholder="Inserte Descripcion"
                                 containerClass={'mb-3'}
                                 register={register}
-                                key="title"
+                                key="Descripcion"
                                 errors={errors}
                                 control={control}
                             />
                         </Col>
                         <Col sm={12}>
                             <FormInput
-                                type="select"
-                                label="Category"
-                                name="className"
+                                type="text"
+                                label="cantidad"
+                                name="cantidad"
                                 className="form-control"
+                                placeholder="Inserte cantidad"
                                 containerClass={'mb-3'}
                                 register={register}
-                                key="className"
+                                key="cantidad"
                                 errors={errors}
-                                control={control}>
-                                {externalEvents.map((event, index) => {
-                                return (
-                                 <option value={event.title} key={index}>{event.title}</option>
-                                )})}
-                            </FormInput>
+                                control={control}
+                            />
                         </Col>
                     </Row>
 
@@ -144,9 +130,31 @@ const AddEditEvent = ({
                         </Col>
                     </Row>
                 </form>
+                <Row>
+                <Col sm={12}>
+                        {list?.IdCategorias===1?
+                              <FormInput
+                                type="select"
+                                label="Referencias"
+                                name="Referencias"
+                                className="form-control"
+                                containerClass={'mb-3'}
+                                key="title"
+                                onChange={(e) => {onDateValueChange(Number(e.target.value))}}
+                                >
+                                {list?.canastas[0]?.map((p, index) => {
+                                return (
+                                 <option value={p.id} key={index}>{p.title}</option>
+                                )})}
+                            </FormInput>:''}
+                        </Col>
+                <Col sm={12}>
+                        <TableItems data={events}/>
+                  </Col>
+                </Row>
             </Modal.Body>
         </Modal>
     );
 };
 
-export default AddEditEvent;
+export default AddEditReferencia;
