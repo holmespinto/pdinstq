@@ -15,7 +15,6 @@ const TableItems = (props) => {
       descuento:props.categories[0]?.value})
 }, [props.categories]);
 
-///console.log('descuento',descuento)
     return (
         <>
             <Card>
@@ -50,7 +49,7 @@ const TableItems = (props) => {
                                                 {props.IdCategorias !== 1 ? (
                                                 <Count
                                                         IdCategorias={props.IdCategorias}
-                                                        title={props.title}
+                                                        title={record.title}
                                                         defaultValue={apartado}
                                                         cantidad={record.cantidad}
                                                         idUser={props.idUser}
@@ -73,7 +72,7 @@ const TableItems = (props) => {
                                                 {props.IdCategorias !== 1 ? (
                                                     <Count
                                                         IdCategorias={props.IdCategorias}
-                                                        title={props.title}
+                                                        title={record.title}
                                                         defaultValue={apartado}
                                                         cantidad={record.cantidad}
                                                         idUser={props.idUser}

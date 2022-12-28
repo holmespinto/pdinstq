@@ -8,6 +8,8 @@ import { yupResolver } from '@hookform/resolvers/yup';
 // components
 import { FormInput } from '../../../components/';
 import { allTitles, allIds } from './functions';
+import { ESTADOS } from '../Project/menu';
+import {SelectTitulosCategorias } from '../calendario/functions';
 
 type AddEditEventProps = {
     isOpen?: boolean,
@@ -33,12 +35,14 @@ const AddEditEvent = ({
     setMultiSelections,
     docentes,
     idCategoria,
+    idUser,
 }: AddEditEventProps): React$Element<any> => {
     // event state
     const [event] = useState(eventData);
     const [categorias, setCategorias] = useState('');
     const [idscategorias, setIdsCategorias] = useState('');
     const [opcionesCategorias, setOpcionesCategorias] = useState([]);
+    const [opcionesEstados, setOpcionesEstados] = useState([]);
     /*
      * form validation schema
      */
@@ -84,18 +88,29 @@ const AddEditEvent = ({
     };
 
     useEffect(() => {
-        if (idCategoria === 1) {
-            const options = [
-                { value: '1.-Canastas' },
-                { value: '2.-Elementos Metalícos' },
-                { value: '3.-Paquete de Ropa' },
-            ];
-            setOpcionesCategorias(options);
-        } else {
-            const options = [{ value: '1.-Canastas' }];
+        if (idCategoria) {
+          const options=SelectTitulosCategorias('storesDataRef',idUser,idCategoria)
             setOpcionesCategorias(options);
         }
-    }, [idCategoria]);
+
+        if(idUser===1){
+          const filterOpciones = ESTADOS.filter(item => {
+            if (item.permisosAdmin === 1) {
+              return item
+            }
+          })
+          setOpcionesEstados(filterOpciones);
+        }else{
+          const filterOpciones = ESTADOS.filter(item => {
+            if (item.permisosDocente === 1) {
+              return item
+            }
+          })
+          setOpcionesEstados(filterOpciones);
+        }
+
+    }, [idCategoria, idUser]);
+
 
     return (
         <Modal show={isOpen} onHide={onClose} backdrop="static" keyboard={false}>
@@ -141,7 +156,7 @@ const AddEditEvent = ({
                                 control={control}>
                                 {opcionesCategorias?.map((p, index) => {
                                     return (
-                                        <option value={p.id} key={index}>
+                                        <option value={p.index} key={index}>
                                             {p.value}
                                         </option>
                                     );
@@ -164,6 +179,30 @@ const AddEditEvent = ({
                                     return (
                                         <option value={p.id} key={index}>
                                             {p.name}
+                                        </option>
+                                    );
+                                })}
+                            </FormInput>
+                        </Col>
+                        <Col sm={12}>
+                        <FormInput
+                                type="select"
+                                label="Estados"
+                                name="estados"
+                                className="form-control"
+                                containerClass={'mb-3'}
+                                placeholder=""
+                                register={register}
+                                key="estados"
+                                errors={errors}
+                                control={control}>
+                                {
+                                  // eslint-disable-next-line array-callback-return
+
+                                  opcionesEstados?.map((p, index) => {
+                                    return (
+                                        <option value={p.id} key={index}>
+                                            {p.title}
                                         </option>
                                     );
                                 })}

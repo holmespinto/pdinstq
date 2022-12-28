@@ -7,43 +7,17 @@ import classNames from 'classnames';
 
 // components
 import PageTitle from '../../../components/PageTitle';
-import {setItemStorage} from '../components/itemStorage.ts';
+import { setItemStorage } from '../components/itemStorage.ts';
 
 import Calendar from './Calendar';
 import AddEditEvent from './AddEditEvent';
 
 // dummy data
-import { defaultEvents,docentes } from './data';
-
+import { defaultEvents, docentes } from './data';
+import { ESTADOS } from '../Project/menu';
 
 const SidePanel = () => {
-    // external events
-    const externalEvents = [
-        {
-            id: 1,
-            textClass: 'text-success',
-            className: 'bg-success',
-            title: 'Devuelto',
-        },
-        {
-            id: 2,
-            textClass: 'text-info',
-            className: 'bg-info',
-            title: 'Reservado',
-        },
-        {
-            id: 3,
-            textClass: 'text-warning',
-            className: 'bg-warning',
-            title: 'Entregado',
-        },
-        {
-            id: 4,
-            textClass: 'text-danger',
-            className: 'bg-danger',
-            title: 'Desabilitado',
-        },
-    ];
+
 
     return (
         <>
@@ -51,7 +25,7 @@ const SidePanel = () => {
                 <br />
                 <p className="text-muted">Drag and drop your event or click in the calendar</p>
                 {/* external events */}
-                {externalEvents.map((event, index) => {
+                {ESTADOS.map((event, index) => {
                     return (
                         <div
                             key={index}
@@ -116,11 +90,11 @@ const CalendarApp = (state: CalendarAppState): React$Element<React$FragmentType>
     const [eventData, setEventData] = useState({});
     const [dateInfo, setDateInfo] = useState({});
     const [todoData, setTodoData] = useState([
-      {
-          id: 1,
-          text: ''
-      },
-  ]);
+        {
+            id: 1,
+            text: '',
+        },
+    ]);
 
     useEffect(() => {
         // create dragable events
@@ -131,16 +105,16 @@ const CalendarApp = (state: CalendarAppState): React$Element<React$FragmentType>
     }, []);
 
     const setMultiSelections = (arg) => {
-      if(arg?.target?.value){
-        let newTodo = [...todoData];
-        newTodo.push({
-            id: todoData.length + 1,
-            text: arg?.target?.value
-        });
-        //console.log('onSubmitEvent',newTodo);
-        setTodoData(newTodo);
-      }
-  };
+        if (arg?.target?.value) {
+            let newTodo = [...todoData];
+            newTodo.push({
+                id: todoData.length + 1,
+                text: arg?.target?.value,
+            });
+            //console.log('onSubmitEvent',newTodo);
+            setTodoData(newTodo);
+        }
+    };
     /*
     calendar events
     */
@@ -186,38 +160,37 @@ const CalendarApp = (state: CalendarAppState): React$Element<React$FragmentType>
     /*
     on add event
     */
-    const onAddEvent = (data,idscategorias,categorias) => {
-
+    const onAddEvent = (data, idscategorias, categorias) => {
         const modifiedEvents = [...events];
         const event = {
             id: modifiedEvents.length + 1,
             title: data.title,
             start: dateInfo ? dateInfo.date : new Date(),
             className: data.className,
-            idCategoria: idscategorias.join(","),
-            titleCategoria: categorias.join(","),
+            idCategoria: idscategorias.join(','),
+            titleCategoria: categorias.join(','),
             asignar: data.asignar,
         };
         modifiedEvents.push(event);
         setEvents(modifiedEvents);
-       const categ = [];
+        const categ = [];
         for (let i = 0; i < idscategorias.length; i++) {
-        if(idscategorias[i])
-        categ.push({
-          id: modifiedEvents.length + 1,
-          title: data.title,
-          start: dateInfo ? dateInfo.date : new Date(),
-          className: data.className,
-          idCategoria: idscategorias.join(","),
-          titleCategoria: categorias.join(","),
-          asignar: data.asignar,
-          })
+            if (idscategorias[i])
+                categ.push({
+                    id: modifiedEvents.length + 1,
+                    title: data.title,
+                    start: dateInfo ? dateInfo.date : new Date(),
+                    className: data.className,
+                    idCategoria: idscategorias.join(','),
+                    titleCategoria: categorias.join(','),
+                    asignar: data.asignar,
+                });
         }
         setItemStorage({
-          data:  categ[0],
-          item: 'storesDataCalendary',
-          typeOfStorage: localStorage,
-        })
+            data: categ[0],
+            item: 'storesDataCalendary',
+            typeOfStorage: localStorage,
+        });
         //console.log(categ[0]);
         onCloseModal();
     };
@@ -246,14 +219,14 @@ const CalendarApp = (state: CalendarAppState): React$Element<React$FragmentType>
     };
 
     useEffect(() => {
-      const pagesInSearch = () => {
-        const  query = window.location.search
-        const idurl =query?.replace(/\?p=/g, '')
-        setIdCategoria(Number(idurl))
-      }
-      pagesInSearch()
-    }, [])
-
+        const pagesInSearch = () => {
+            const query = window.location.search;
+            const idurl = query?.replace(/\?p=/g, '');
+            setIdCategoria(Number(idurl));
+        };
+        pagesInSearch();
+    }, []);
+    const idUser = 1;
     return (
         <>
             <PageTitle
@@ -312,6 +285,7 @@ const CalendarApp = (state: CalendarAppState): React$Element<React$FragmentType>
                     todoData={todoData}
                     docentes={docentes}
                     idCategoria={idCategoria}
+                    idUser={idUser}
                 />
             ) : null}
         </>

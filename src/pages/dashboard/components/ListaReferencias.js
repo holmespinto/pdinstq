@@ -1,23 +1,17 @@
 /* eslint-disable react/style-prop-object */
 // @flow
-import React, { useState,useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 //import { useForm } from 'react-hook-form';
-import { Modal, Row, Col} from 'react-bootstrap';
+import { Modal, Row, Col } from 'react-bootstrap';
 //import * as yup from 'yup';
 //import { yupResolver } from '@hookform/resolvers/yup';
- import { setItemStorage, getItemStorage } from './itemStorage.ts';
+import { setItemStorage, getItemStorage } from './itemStorage.ts';
 
 // components
 import { FormInput } from '../../../components';
-import  TableItems  from './TableItems';
+import TableItems from './TableItems';
 
-
-const ListaReferencias = ({
-    isOpenlist,
-    onClose,
-    listData,
-    idUser,
-})=> {
+const ListaReferencias = ({ isOpenlist, onClose, listData, idUser }) => {
     // event state
 
     const [idRef, setidRef] = React.useState(0);
@@ -27,70 +21,87 @@ const ListaReferencias = ({
     const [categories, setCategories] = useState([]);
 
     const onDateValueCategories = (e) => {
-
-
-    const modifiedEvents = [];
+        const modifiedEvents = [];
         modifiedEvents.push({
-          id: modifiedEvents.length + 1,
-          value: e.value,
-          rowid: e.rowid,
-          IdCategorias: e.IdCategorias,
-          idUser: e.idUser,
-          estado: e.estado,
-      });
-      setCategories(modifiedEvents);
+            id: modifiedEvents.length + 1,
+            value: e.value,
+            rowid: e.rowid,
+            IdCategorias: e.IdCategorias,
+            idUser: e.idUser,
+            estado: e.estado,
+        });
+        setCategories(modifiedEvents);
 
-      const apartados = getItemStorage({
-        typeOfStorage: localStorage,
-        item: 'storesData',
-      })
+        //GUARDAR LOS TITULOS DEL EVENTO
+        const apartadosRef = getItemStorage({
+            typeOfStorage: localStorage,
+            item: 'storesDataRef',
+        });
+        const apartadosDataRef = [...apartadosRef];
+        apartadosDataRef.push({
+            id: 1,
+            value: e.rowid + '.-' + e.title,
+            rowid: e.rowid,
+            IdCategorias: e.IdCategorias,
+            idUser: e.idUser,
+        });
+        setItemStorage({
+            data: apartadosDataRef,
+            item: 'storesDataRef',
+            typeOfStorage: localStorage,
+        });
+        //fin
 
-      const saveCategories = [...apartados];
-      saveCategories.push({
-        id: saveCategories.length + 1,
-        value: e.value,
-        rowid: e.rowid,
-        IdCategorias: e.IdCategorias,
-        idUser: e.idUser,
-        estado: e.estado,
-    });
-    setItemStorage({
-      data: saveCategories,
-      item: 'storesData',
-      typeOfStorage: localStorage,
-    })
-    //
+        //cargue los datos de los instrumentos apartados
+        const apartados = getItemStorage({
+            typeOfStorage: localStorage,
+            item: 'storesData',
+        });
 
-  };
-    const onDateReferencias = (arg,argB) => {
-      const apartadosReferencia = getItemStorage({
-        typeOfStorage: localStorage,
-        item: 'storesDataRef',
-      })
-      const saveReferencia=[...apartadosReferencia]
-      saveReferencia.push({
-        id: saveReferencia.length + 1,
-        value: arg + '.-' + argB[arg].title,
-        rowid: arg,
-        IdCategorias: 1,
-        idUser: idUser,
-        estado: 'add',
-    });
-    setItemStorage({
-      data: saveReferencia,
-      item: 'storesDataRef',
-      typeOfStorage: localStorage,
-    })
+        const saveCategories = [...apartados];
+        saveCategories.push({
+            id: saveCategories.length + 1,
+            value: e.value,
+            rowid: e.rowid,
+            IdCategorias: e.IdCategorias,
+            idUser: e.idUser,
+            estado: e.estado,
+        });
+        setItemStorage({
+            data: saveCategories,
+            item: 'storesData',
+            typeOfStorage: localStorage,
+        });
+        //
+    };
+    const onDateReferencias = (arg, argB) => {
+        const apartadosReferencia = getItemStorage({
+            typeOfStorage: localStorage,
+            item: 'storesDataRef',
+        });
+        const saveReferencia = [...apartadosReferencia];
+        saveReferencia.push({
+            id: saveReferencia.length + 1,
+            value: arg + '.-' + argB[arg].title,
+            rowid: arg,
+            IdCategorias: 1,
+            idUser: idUser,
+            estado: 'add',
+        });
+        setItemStorage({
+            data: saveReferencia,
+            item: 'storesDataRef',
+            typeOfStorage: localStorage,
+        });
 
-
-      setidRef(arg)
+        setidRef(arg);
     };
 
     useEffect(() => {
-      (list?.IdCategorias===1)?
-      setEvents([list?.canastas[0][idRef]?.items]):setEvents([list?.canastas[0][0]?.items])
-
-  }, [idRef,list]);
+        list?.IdCategorias === 1
+            ? setEvents([list?.canastas[0][idRef]?.items])
+            : setEvents([list?.canastas[0][0]?.items]);
+    }, [idRef, list]);
 
     return (
         <Modal show={isOpenlist} onHide={onClose} backdrop="static" keyboard={false} size={'xl'}>
@@ -101,33 +112,40 @@ const ListaReferencias = ({
             </Modal.Header>
             <Modal.Body className="px-4 pb-4 pt-0 mx-auto">
                 <Row>
-                <Col sm={12}>
-               {list?.IdCategorias===1?
-               <FormInput
+                    <Col sm={12}>
+                        {list?.IdCategorias === 1 ? (
+                            <FormInput
                                 type="select"
                                 label="Referencias"
                                 name="Referencias"
                                 className="form-control"
                                 containerClass={'mb-3'}
                                 key="title"
-                                onChange={(e) => {onDateReferencias(Number(e.target.value),list?.canastas[0])}}
-                                >
+                                onChange={(e) => {
+                                    onDateReferencias(Number(e.target.value), list?.canastas[0]);
+                                }}>
                                 {list?.canastas[0]?.map((p, index) => {
-                                return (
-                                 <option value={p.id} key={index}>{p.title}</option>
-                                )})}
-                            </FormInput>:''}
-                        </Col>
-                        <Col sm={12}>
+                                    return (
+                                        <option value={p.id} key={index}>
+                                            {p.title}
+                                        </option>
+                                    );
+                                })}
+                            </FormInput>
+                        ) : (
+                            ''
+                        )}
+                    </Col>
+                    <Col sm={12}>
                         <TableItems
-                        data={events}
-                        categories={categories}
-                        onDateValueCategories={onDateValueCategories}
-                        IdCategorias={list?.IdCategorias}
-                        idUser={1}
-                        title={listData?.title}
-                         />
-                        </Col>
+                            data={events}
+                            categories={categories}
+                            onDateValueCategories={onDateValueCategories}
+                            IdCategorias={list?.IdCategorias}
+                            idUser={1}
+                            title={listData?.title}
+                        />
+                    </Col>
                 </Row>
             </Modal.Body>
         </Modal>

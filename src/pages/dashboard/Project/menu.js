@@ -901,4 +901,39 @@ const CATEGORIAS_ITEMS = [
       },
     ]}]},
   ];
-export { REFERENCIAS_ITEMS, CATEGORIAS_ITEMS };
+      // external events
+      const ESTADOS = [
+        {
+            id: 1,
+            textClass: 'text-success',
+            className: 'bg-success',
+            title: 'Devuelto',
+            permisosDocente:0,
+            permisosAdmin:1,
+        },
+        {
+            id: 2,
+            textClass: 'text-info',
+            className: 'bg-info',
+            title: 'Reservado',
+            permisosDocente:1,
+            permisosAdmin:1,
+        },
+        {
+            id: 3,
+            textClass: 'text-warning',
+            className: 'bg-warning',
+            title: 'Entregado',
+            permisosDocente:0,
+            permisosAdmin:1,
+        },
+        {
+            id: 4,
+            textClass: 'text-danger',
+            className: 'bg-danger',
+            title: 'Desabilitado',
+            permisosDocente:0,
+            permisosAdmin:1,
+        },
+    ];
+export { REFERENCIAS_ITEMS, CATEGORIAS_ITEMS,ESTADOS };

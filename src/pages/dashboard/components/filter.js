@@ -28,8 +28,9 @@ function getpedidos(id,IdCategorias,idUser){
       return item3
     }
   })
+    const value = filterC[filterC.length-1]?.value>0?filterC[filterC.length-1]?.value:0
+  return value
 
-  return filterC[filterC.length-1].value
 }
 
 
