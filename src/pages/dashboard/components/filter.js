@@ -32,6 +32,40 @@ function getpedidos(id,IdCategorias,idUser){
   return value
 
 }
+function getnumbercategorias(IdCategorias, idUser) {
 
+      const local = IdCategorias===1?'storesDataRef':'storesData'
 
-export { getpedidos,clearArray };
+    const apartados = getItemStorage({
+        typeOfStorage: localStorage,
+        item: local,
+    });
+    // eslint-disable-next-line array-callback-return
+    const filterB = apartados.filter((item2) => {
+        if (item2.IdCategorias === IdCategorias) {
+            return item2;
+        }
+    });
+
+    // eslint-disable-next-line array-callback-return
+    const filterC = filterB.filter((item3) => {
+        if (item3.idUser === idUser) {
+            return item3;
+        }
+    });
+    let ArrayObjects = [];
+    // eslint-disable-next-line array-callback-return
+    filterC.map((itemTemp) => {
+        if (!ArrayObjects.includes(itemTemp.IdCategorias)) {
+            ArrayObjects.push(itemTemp.IdCategorias);
+        }
+    });
+
+    ArrayObjects.filter((valor, indice) => {
+        return filterC.indexOf(valor) === indice;
+    });
+    console.log(ArrayObjects)
+    return ArrayObjects?.length? ArrayObjects?.length +1 : 0;
+}
+
+export { getpedidos,clearArray,getnumbercategorias };

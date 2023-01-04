@@ -1,3 +1,4 @@
+
 const REFERENCIAS_ITEMS = [
   {
     IdBasket: 1,
@@ -936,4 +937,5 @@ const CATEGORIAS_ITEMS = [
             permisosAdmin:1,
         },
     ];
+
 export { REFERENCIAS_ITEMS, CATEGORIAS_ITEMS,ESTADOS };

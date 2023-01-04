@@ -39,11 +39,11 @@ const Calendar = ({ onDateClick, onEventClick, onDrop, events }: CalendarProps):
                     handleWindowResize={true}
                     themeSystem="bootstrap"
                     buttonText={{
-                        today: 'Today',
-                        month: 'Month',
-                        week: 'Week',
-                        day: 'Day',
-                        list: 'List',
+                        today: 'Para Hoy',
+                        month: 'Mes',
+                        week: 'Semana',
+                        day: 'Dia',
+                        list: 'Lista',
                         prev: 'Prev',
                         next: 'Next',
                     }}

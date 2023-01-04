@@ -89,6 +89,7 @@ const CalendarApp = (state: CalendarAppState): React$Element<React$FragmentType>
     const [events, setEvents] = useState([...defaultEvents]);
     const [eventData, setEventData] = useState({});
     const [dateInfo, setDateInfo] = useState({});
+    const [categoriaList, setCategoriaList] = useState([]);
     const [todoData, setTodoData] = useState([
         {
             id: 1,
@@ -104,14 +105,22 @@ const CalendarApp = (state: CalendarAppState): React$Element<React$FragmentType>
         });
     }, []);
 
-    const setMultiSelections = (arg) => {
+    const setMultiSelections = (arg,arg2) => {
         if (arg?.target?.value) {
+
             let newTodo = [...todoData];
             newTodo.push({
                 id: todoData.length + 1,
                 text: arg?.target?.value,
             });
-            //console.log('onSubmitEvent',newTodo);
+
+            // eslint-disable-next-line array-callback-return
+            const filter = arg2.filter(item => {
+              if (item.value !== arg?.target?.value) {
+                return item
+              }
+            })
+            setCategoriaList(filter)
             setTodoData(newTodo);
         }
     };
@@ -286,6 +295,7 @@ const CalendarApp = (state: CalendarAppState): React$Element<React$FragmentType>
                     docentes={docentes}
                     idCategoria={idCategoria}
                     idUser={idUser}
+                    categoriaList={categoriaList}
                 />
             ) : null}
         </>

@@ -71,7 +71,6 @@ const AddEditReferencia = ({
       //console.log(data);
         isEditable ? onUpdateEvent(data) : onAddEvent(data);
     };
-    console.log(events)
     return (
         <Modal show={isOpen} onHide={onClose} backdrop="static" keyboard={false}>
             <Modal.Header className="pb-2 px-4 border-bottom-0" closeButton>

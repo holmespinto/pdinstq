@@ -2,10 +2,13 @@ import React, { useState, useEffect } from 'react';
 //import { useForm } from 'react-hook-form';
 import { Card, Col, OverlayTrigger, Tooltip, Table } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
+//import Swal from 'sweetalert2'
 import 'nouislider/distribute/nouislider.css';
 // components
 import Count from './Count';
 import {getpedidos} from './filter';
+import DeleteItem from '../Project/DeleteItems'
+import { getnumbercategorias } from '../components/filter';
 
 const TableItems = (props) => {
   const [descuento,setdescuento] = useState({idrow:0,descuento:0});
@@ -15,12 +18,14 @@ const TableItems = (props) => {
       descuento:props.categories[0]?.value})
 }, [props.categories]);
 
+const totalCan = getnumbercategorias(props.IdCategorias,props.idUser)
     return (
         <>
             <Card>
                 <Card.Body>
                     <Table>
                         <thead>
+                        <tr>Número de elementos seleccionadas: {totalCan?totalCan:0}</tr>
                             <tr>
                                 <th>#</th>
                                 <th>Descripción</th>
@@ -29,14 +34,12 @@ const TableItems = (props) => {
                                 <th>{props.IdCategorias === 1 ?'':'Seleccionado'}</th>
 
                             </tr>
-                            <tr></tr>
+
                         </thead>
                         <tbody>
-                            {props.data[0]?.map((record, index) => {
+                            {
+                            props.data[0]?.map((record, index) => {
                             const apartado = props.IdCategorias === 1 ? 1:getpedidos(record.id,props.IdCategorias,props.idUser)
-
-                                // eslint-disable-next-line no-const-assign
-                                //clearArray(secondaryUser)
                                 return (
                                     <tr key={index}>
                                         {record.id === descuento.idrow ? (
@@ -103,6 +106,7 @@ const TableItems = (props) => {
                                 <i className="dripicons-archive"></i>
                             </OverlayTrigger>
                         </Link>
+                        <DeleteItem IdCategoria={props.IdCategorias}/>
                     </Col>
                 </Card.Body>
             </Card>

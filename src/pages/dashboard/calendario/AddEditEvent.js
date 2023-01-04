@@ -36,6 +36,7 @@ const AddEditEvent = ({
     docentes,
     idCategoria,
     idUser,
+    categoriaList,
 }: AddEditEventProps): React$Element<any> => {
     // event state
     const [event] = useState(eventData);
@@ -88,12 +89,9 @@ const AddEditEvent = ({
     };
 
     useEffect(() => {
-        if (idCategoria) {
-          const options=SelectTitulosCategorias('storesDataRef',idUser,idCategoria)
-            setOpcionesCategorias(options);
-        }
 
         if(idUser===1){
+          // eslint-disable-next-line array-callback-return
           const filterOpciones = ESTADOS.filter(item => {
             if (item.permisosAdmin === 1) {
               return item
@@ -101,6 +99,7 @@ const AddEditEvent = ({
           })
           setOpcionesEstados(filterOpciones);
         }else{
+          // eslint-disable-next-line array-callback-return
           const filterOpciones = ESTADOS.filter(item => {
             if (item.permisosDocente === 1) {
               return item
@@ -110,7 +109,14 @@ const AddEditEvent = ({
         }
 
     }, [idCategoria, idUser]);
-
+    useEffect(() => {
+        if (categoriaList?.length === 0) {
+            const options = SelectTitulosCategorias('storesDataRef', idUser, idCategoria);
+            setOpcionesCategorias(options);
+        } else {
+            setOpcionesCategorias(categoriaList);
+        }
+    }, [categoriaList, idUser, idCategoria]);
 
     return (
         <Modal show={isOpen} onHide={onClose} backdrop="static" keyboard={false}>
@@ -151,14 +157,15 @@ const AddEditEvent = ({
                                 errors={errors}
                                 selected={todoData}
                                 onChange={(e) => {
-                                    setMultiSelections(e);
+                                    setMultiSelections(e,opcionesCategorias);
                                 }}
                                 control={control}>
+                                  <option>Selecione..</option>
                                 {opcionesCategorias?.map((p, index) => {
                                     return (
-                                        <option value={p.index} key={index}>
-                                            {p.value}
-                                        </option>
+                                      <option value={p.index} key={index}>
+                                        {p.value}
+                                      </option>
                                     );
                                 })}
                             </FormInput>

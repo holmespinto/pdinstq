@@ -24,6 +24,7 @@ const LockScreen2 = React.lazy(() => import('../pages/account2/LockScreen2'));
 // dashboard
 const ProjectDashboard = React.lazy(() => import('../pages/dashboard/Project'));
 const calendario = React.lazy(() => import('../pages/dashboard/calendario'));
+const configuracion = React.lazy(() => import('../pages/dashboard/configuracion'));
 
 
 // root routes
@@ -56,6 +57,11 @@ const dashboardRoutes = {
           name: 'Calendario',
           component: calendario,
           route: PrivateRoute,
+      },{
+          path: '/dashboard/configuracion/:id',
+          name: 'Configuracion',
+          component: configuracion,
+          route: PrivateRoute,
       }
     ],
 };
@@ -78,9 +84,26 @@ const calendarioAppRoutes = {
     ],
 };
 
+const configuracionAppRoutes = {
+    path: '/dashboard/configuracion/',
+    name: 'Configuracion',
+    route: calendario,
+    roles: ['Admin'],
+    icon: 'uil-briefcase',
+    children: [
+        {
+            path: '/dashboard/configuracion/:id/configuracion',
+            name: 'Configuracion',
+            component: calendario,
+            route: PrivateRoute,
+        }
+    ],
+};
+
 
 const appRoutes = [
-    calendarioAppRoutes
+    calendarioAppRoutes,
+    configuracionAppRoutes
 ];
 
 // pages

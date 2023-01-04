@@ -11,8 +11,10 @@ function styleFormat(str, num) {
     }
 }
 function arrayUnicos(array) {
+    // eslint-disable-next-line array-callback-return
     const titulosUnicos = array.filter((valor, indice) => {
         return array.indexOf(valor) === indice;
+
     });
     return titulosUnicos;
 }
@@ -46,6 +48,35 @@ function allIds(todoData) {
         return idUnicos;
     }
 }
+function allCanastas(todoData,IdUser) {
+  if (todoData) {
+    const apartados = getItemStorage({
+      typeOfStorage: localStorage,
+      item: 'storesDataRef',
+  });
+    // eslint-disable-next-line array-callback-return
+    const filter = apartados.filter((item) =>
+      item.idUser === IdUser
+  );
+
+     // let category = [];
+      let caids = '';
+      //let idrow = [];
+      // eslint-disable-next-line array-callback-return
+      Object.keys(filter)?.map((key) => {
+          //if (key !== 0) {
+            //category.push({id:filter[key]?.rowid,title:filter[key]?.value})
+             caids += filter[key]?.rowid + ',';
+          //}
+      });
+
+
+     let ids = caids.split(',');
+     let idUnicos = arrayUnicos(ids);
+      return idUnicos;
+  }
+}
+
 function SelectTitulosCategorias(local, idUser,idCategoria) {
     const apartados = getItemStorage({
         typeOfStorage: localStorage,
@@ -74,4 +105,5 @@ function SelectTitulosCategorias(local, idUser,idCategoria) {
     });
     return options;
 }
-export { allTitles, allIds, SelectTitulosCategorias};
+
+export { allTitles, allIds, SelectTitulosCategorias,allCanastas};
