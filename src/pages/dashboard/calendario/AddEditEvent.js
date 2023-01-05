@@ -37,32 +37,38 @@ const AddEditEvent = ({
     idCategoria,
     idUser,
     categoriaList,
+    getClassName,
+    classnamed
 }: AddEditEventProps): React$Element<any> => {
     // event state
     const [event] = useState(eventData);
     const [categorias, setCategorias] = useState('');
     const [idscategorias, setIdsCategorias] = useState('');
+    const [titulos, setTitulos] = useState('');
     const [opcionesCategorias, setOpcionesCategorias] = useState([]);
     const [opcionesEstados, setOpcionesEstados] = useState([]);
+    const [estados, setEstados] = React.useState(0);
     /*
      * form validation schema
      */
     const schemaResolver = yupResolver(
         yup.object().shape({
-            title: yup.string().required('Please enter event name'),
-            className: yup.string().required('Please select category'),
+            title: yup.string().required('Por favor, adjunte las categorias'),
+            className: yup.string().required('Por favor, selecione la categoria'),
+            asignar: yup.string().required('Por favor, selecione el Docente'),
+            estado: yup.string().required('Por favor, selecione el Estado'),
         })
     );
 
     /*
      * form methods
      */
+
     const methods = useForm({ defaultValues: event, resolver: schemaResolver });
     const {
         handleSubmit,
         register,
         control,
-        reset,
         formState: { errors },
     } = methods;
 
@@ -74,18 +80,20 @@ const AddEditEvent = ({
         setCategorias(titulosUnicos);
         setIdsCategorias(idsUnicos);
         document.getElementById('title')?.focus();
+
     }, [todoData]);
 
     /*
      * handle form submission
      */
     const onSubmitEvent = (data) => {
-        // isEditable ? onUpdateEvent(data) : onAddEvent(data);
+      console.log(data);
+      isEditable ? onUpdateEvent(data) : onAddEvent(data, idscategorias, categorias);
         //
         //DATOS PARA GUARDAR EN LA BASE DE DATOS ID CATEGORIAS
         //TITULOS DE LAS CATEGORIAS
-        onAddEvent(data, idscategorias, categorias);
-        reset();
+        //onAddEvent(data, idscategorias, categorias);
+        //reset();
     };
 
     useEffect(() => {
@@ -118,21 +126,52 @@ const AddEditEvent = ({
         }
     }, [categoriaList, idUser, idCategoria]);
 
+    useEffect(() => {
+        if(isEditable){
+            setTitulos(event.title)
+        }else{
+            setTitulos(categorias)
+        }
+    }, [isEditable,event,categorias]);
+
+    useEffect(() => {
+        const estados = Object.keys(ESTADOS)?.map((key) => {
+            return ESTADOS[key]?.title;
+        });
+
+        setEstados(estados[Number(event.estado-1)]);
+    }, [event.estado]);
+
+
     return (
         <Modal show={isOpen} onHide={onClose} backdrop="static" keyboard={false}>
             <Modal.Header className="pb-2 px-4 border-bottom-0" closeButton>
                 <Modal.Title id="modal-title">
-                    <h5> {isEditable ? 'Edit Event' : 'Add Categorias'} </h5>
+                    <h5> {isEditable ? 'Edit Solicitud' : 'Add Solicitud'} </h5>
                 </Modal.Title>
             </Modal.Header>
             <Modal.Body className="px-4 pb-4 pt-0">
                 <form noValidate name="chat-form" id="chat-form" onSubmit={handleSubmit(onSubmitEvent)}>
                     <Row>
                         <Col sm={12}>
+                        <FormInput
+                                type="hidden"
+                                label="className"
+                                value={classnamed}
+                                name="className"
+                                id="className"
+                                className="form-control"
+                                placeholder="className"
+                                containerClass={'mb-3'}
+                                register={register}
+                                key="className"
+                                errors={errors}
+                                control={control}
+                            />
                             <FormInput
                                 type="text"
                                 label="Categorias seleccionadas"
-                                value={categorias}
+                                value={titulos}
                                 name="title"
                                 id="title"
                                 className="form-control"
@@ -147,20 +186,20 @@ const AddEditEvent = ({
                         <Col sm={12}>
                             <FormInput
                                 type="select"
-                                label="Category"
-                                name="className"
+                                label="Categorias"
+                                name="Categorias"
                                 className="form-control"
                                 containerClass={'mb-3'}
                                 placeholder=""
                                 register={register}
-                                key="className"
+                                key="Categorias"
                                 errors={errors}
                                 selected={todoData}
                                 onChange={(e) => {
                                     setMultiSelections(e,opcionesCategorias);
                                 }}
                                 control={control}>
-                                  <option>Selecione..</option>
+                                <option></option>
                                 {opcionesCategorias?.map((p, index) => {
                                     return (
                                       <option value={p.index} key={index}>
@@ -182,6 +221,7 @@ const AddEditEvent = ({
                                 key="asignar"
                                 errors={errors}
                                 control={control}>
+                                <option></option>
                                 {docentes?.map((p, index) => {
                                     return (
                                         <option value={p.id} key={index}>
@@ -195,14 +235,19 @@ const AddEditEvent = ({
                         <FormInput
                                 type="select"
                                 label="Estados"
-                                name="estados"
+                                name="estado"
                                 className="form-control"
                                 containerClass={'mb-3'}
                                 placeholder=""
                                 register={register}
-                                key="estados"
+                                key="estado"
+                                onChange={(e) => {
+                                  getClassName(e);
+                                  document.getElementById('className')?.focus();
+                              }}
                                 errors={errors}
                                 control={control}>
+                                <option>{estados}</option>
                                 {
                                   // eslint-disable-next-line array-callback-return
 
@@ -219,18 +264,13 @@ const AddEditEvent = ({
 
                     <Row>
                         <Col xs={4}>
-                            {isEditable ? (
-                                <Button variant="danger" onClick={onRemoveEvent}>
-                                    Delete
-                                </Button>
-                            ) : null}
                         </Col>
                         <Col xs={8} className="text-end">
                             <Button className="btn btn-light me-1" onClick={onClose}>
                                 Close
                             </Button>
                             <Button variant="success" type="submit" className="btn btn-success">
-                                Save
+                            {isEditable ? 'Actualizar' : 'Guardar'}
                             </Button>
                         </Col>
                     </Row>

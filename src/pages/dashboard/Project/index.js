@@ -1,6 +1,6 @@
 /* eslint-disable import/first */
 // @flow
-import React,{ useState } from 'react';
+import React,{ useState,useEffect } from 'react';
 import { Row, Col } from 'react-bootstrap';
 import AddEditReferencia from '../components/AddEditReferencia';
 import {CATEGORIAS_ITEMS} from './menu'
@@ -9,13 +9,14 @@ import {CATEGORIAS_ITEMS} from './menu'
 import PageTitle from '../../../components/PageTitle';
 import TarjetasReferencias from '../components/TarjetasReferencias';
 import ListaReferencias from '../components/ListaReferencias';
-
+import { getItemStorage } from '../components/itemStorage';
 const ProjectDashboardPage = (): React$Element<React$FragmentType> => {
 /*
      * modal handeling
      */
 const [show, setShow] = useState(false);
 const [showlist, setShowLista] = useState(false);
+const [autor, setAutor] = useState(0);
 const onCloseModalList = () => {
   setShowLista(false);
     setEventData({});
@@ -32,11 +33,10 @@ const [isEditable, setIsEditable] = useState(false);
 /*
  * event data
  */
-// eslint-disable-next-line no-undef
-//const [events, setEvents] = useState([...defaultEvents]);
+
 const [eventData, setEventData] = useState({});
 const [listData, setListData] = useState({});
-//const [dateInfo, setDateInfo] = useState({});
+
 /*
 calendar events
 */
@@ -47,14 +47,6 @@ const onDateClick = (arg) => {
     onOpenModal();
     setShowLista(false);
     setIsEditable(false);
-    /*
-    const event = {
-        id: parseInt(arg.event.id),
-        title: arg.event.title,
-        start: arg.event.start,
-        className: arg.event.classNames[0],
-    };
-    */
     setEventData(arg);
     //setListData(arg);
 };
@@ -65,35 +57,10 @@ const onListaClick = (arg) => {
     setListData(arg);
 };
 
-// on event click
-/*
-const onEventClick = (arg) => {
-    const event = {
-        id: parseInt(arg.event.id),
-        title: arg.event.title,
-        start: arg.event.start,
-        className: arg.event.classNames[0],
-    };
-    setEventData(event);
-    onOpenModal();
-    setIsEditable(true);
-};
-*/
 /*
 on add event
 */
 const onAddEvent = (data) => {
-   /* const modifiedEvents = [...events];
-    const event = {
-        id: modifiedEvents.length + 1,
-        title: data.title,
-        start: dateInfo ? dateInfo.date : new Date(),
-        className: data.className,
-    };
-
-    modifiedEvents.push(event);
-    setEvents(modifiedEvents);
-    */
     onCloseModal();
 };
 
@@ -101,13 +68,6 @@ const onAddEvent = (data) => {
 on update event
 */
 const onUpdateEvent = (data) => {
-    /*
-    const modifiedEvents = [...events];
-    const idx = modifiedEvents.findIndex((e) => e['id'] === eventData.id);
-    modifiedEvents[idx]['title'] = data.title;
-    modifiedEvents[idx]['className'] = data.className;
-    setEvents(modifiedEvents);
-    */
     onCloseModal();
 };
 
@@ -115,18 +75,18 @@ const onUpdateEvent = (data) => {
 on remove event
 */
 const onRemoveEvent = () => {
-     /*
-    var modifiedEvents = [...events];
-    const idx = modifiedEvents.findIndex((e) => e['id'] === eventData.id);
-    modifiedEvents.splice(idx, 1);
-    setEvents(modifiedEvents);
-    */
     onCloseModal();
 };
-//console.log('showlist',showlist,'show',show)
-const idUser = 1;
 
-    return (
+useEffect(() => {
+  const apartados = getItemStorage({
+    typeOfStorage: localStorage,
+    item: 'user',
+  })
+  setAutor(apartados.idUser);
+}, []);
+
+return (
         <React.Fragment>
             <PageTitle
                 breadCrumbItems={[
@@ -160,6 +120,7 @@ const idUser = 1;
                             title:p.title,
                             canastas:[p?.canastas]
                         }}
+                        idUser={autor}
                         ></TarjetasReferencias>
                 </Col>
                 ))}
@@ -174,6 +135,7 @@ const idUser = 1;
                 onUpdateEvent={onUpdateEvent}
                 onRemoveEvent={onRemoveEvent}
                 onAddEvent={onAddEvent}
+                idUser={autor}
                 />
             ) : null}
             {showlist ? (
@@ -181,7 +143,7 @@ const idUser = 1;
                 isOpenlist={showlist}
                 onClose={onCloseModalList}
                 listData={listData}
-                idUser={idUser}
+                idUser={autor}
                 />
             ) : null}
               </React.Fragment>

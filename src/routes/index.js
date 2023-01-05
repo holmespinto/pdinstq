@@ -14,13 +14,6 @@ const Register = React.lazy(() => import('../pages/account/Register'));
 const ForgetPassword = React.lazy(() => import('../pages/account/ForgetPassword'));
 const LockScreen = React.lazy(() => import('../pages/account/LockScreen'));
 
-const Login2 = React.lazy(() => import('../pages/account2/Login2'));
-const Logout2 = React.lazy(() => import('../pages/account2/Logout2'));
-const Register2 = React.lazy(() => import('../pages/account2/Register2'));
-const Confirm2 = React.lazy(() => import('../pages/account2/Confirm2'));
-const ForgetPassword2 = React.lazy(() => import('../pages/account2/ForgetPassword2'));
-const LockScreen2 = React.lazy(() => import('../pages/account2/LockScreen2'));
-
 // dashboard
 const ProjectDashboard = React.lazy(() => import('../pages/dashboard/Project'));
 const calendario = React.lazy(() => import('../pages/dashboard/calendario'));
@@ -155,42 +148,6 @@ const authRoutes = [
         path: '/account/lock-screen',
         name: 'Lock Screen',
         component: LockScreen,
-        route: Route,
-    },
-    {
-        path: '/account/login2',
-        name: 'Login2',
-        component: Login2,
-        route: Route,
-    },
-    {
-        path: '/account/logout2',
-        name: 'Logout2',
-        component: Logout2,
-        route: Route,
-    },
-    {
-        path: '/account/register2',
-        name: 'Register2',
-        component: Register2,
-        route: Route,
-    },
-    {
-        path: '/account/confirm2',
-        name: 'Confirm2',
-        component: Confirm2,
-        route: Route,
-    },
-    {
-        path: '/account/forget-password2',
-        name: 'Forget Password2',
-        component: ForgetPassword2,
-        route: Route,
-    },
-    {
-        path: '/account/lock-screen2',
-        name: 'Lock Screen2',
-        component: LockScreen2,
         route: Route,
     },
 ];

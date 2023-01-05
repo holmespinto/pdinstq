@@ -11,19 +11,18 @@ import { setItemStorage } from '../components/itemStorage.ts';
 
 import Calendar from './Calendar';
 import AddEditEvent from './AddEditEvent';
+import {getHora} from './functions';
 
 // dummy data
 import { defaultEvents, docentes } from './data';
 import { ESTADOS } from '../Project/menu';
 
 const SidePanel = () => {
-
-
     return (
         <>
             <div id="external-events" className="m-t-20">
                 <br />
-                <p className="text-muted">Drag and drop your event or click in the calendar</p>
+                <p className="text-muted">Estados de Solicitudes</p>
                 {/* external events */}
                 {ESTADOS.map((event, index) => {
                     return (
@@ -40,22 +39,6 @@ const SidePanel = () => {
             </div>
 
             <div className="mt-5 d-none d-xl-block">
-                <h5 className="text-center">How It Works ?</h5>
-
-                <ul className="ps-3">
-                    <li className="text-muted mb-3">
-                        It has survived not only five centuries, but also the leap into electronic typesetting,
-                        remaining essentially unchanged.
-                    </li>
-                    <li className="text-muted mb-3">
-                        Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of
-                        the more obscure Latin words, consectetur, from a Lorem Ipsum passage.
-                    </li>
-                    <li className="text-muted mb-3">
-                        It has survived not only five centuries, but also the leap into electronic typesetting,
-                        remaining essentially unchanged.
-                    </li>
-                </ul>
             </div>
         </>
     );
@@ -90,6 +73,7 @@ const CalendarApp = (state: CalendarAppState): React$Element<React$FragmentType>
     const [eventData, setEventData] = useState({});
     const [dateInfo, setDateInfo] = useState({});
     const [categoriaList, setCategoriaList] = useState([]);
+    const [classnames, setClassName] = useState('');
     const [todoData, setTodoData] = useState([
         {
             id: 1,
@@ -104,6 +88,14 @@ const CalendarApp = (state: CalendarAppState): React$Element<React$FragmentType>
             itemSelector: '.external-event',
         });
     }, []);
+
+    const getClassName = (arg) => {
+       // eslint-disable-next-line array-callback-return
+       const estados = Object.keys(ESTADOS)?.map((key) => {
+        return ESTADOS[key]?.className;
+        });
+        setClassName(estados[Number(arg?.target?.value-1)]);
+    }
 
     const setMultiSelections = (arg,arg2) => {
         if (arg?.target?.value) {
@@ -140,8 +132,13 @@ const CalendarApp = (state: CalendarAppState): React$Element<React$FragmentType>
             id: parseInt(arg.event.id),
             title: arg.event.title,
             start: arg.event.start,
+            end: arg.event.end,
             className: arg.event.classNames[0],
+            asignar: arg.event.extendedProps.asignar,
+            idCategoria: arg.event.extendedProps.idCategoria,
+            estado: arg.event.extendedProps.estado,
         };
+
         setEventData(event);
         onOpenModal();
         setIsEditable(true);
@@ -157,11 +154,11 @@ const CalendarApp = (state: CalendarAppState): React$Element<React$FragmentType>
                 id: events.length + 1,
                 title: title,
                 start: dropEventData ? dropEventData.dateStr : new Date(),
+                end: dropEventData ? dropEventData.dateStr : new Date(),
                 className: dropEventData.draggedEl.attributes.data.value,
             };
             const modifiedEvents = [...events];
             modifiedEvents.push(newEvent);
-
             setEvents(modifiedEvents);
         }
     };
@@ -170,18 +167,30 @@ const CalendarApp = (state: CalendarAppState): React$Element<React$FragmentType>
     on add event
     */
     const onAddEvent = (data, idscategorias, categorias) => {
+
+      // eslint-disable-next-line array-callback-return
+      const estados = Object.keys(ESTADOS)?.map((key) => {
+              return ESTADOS[key]?.className;
+      });
+
+      const launchDate = dateInfo ? dateInfo.date : new Date();
+      const futureDate= getHora(launchDate)
+
         const modifiedEvents = [...events];
         const event = {
             id: modifiedEvents.length + 1,
             title: data.title,
-            start: dateInfo ? dateInfo.date : new Date(),
-            className: data.className,
+            start: launchDate,
+            end: futureDate,
+            className: estados[Number(data.estado-1)],
             idCategoria: idscategorias.join(','),
             titleCategoria: categorias.join(','),
             asignar: data.asignar,
+            estado:data.estado
         };
         modifiedEvents.push(event);
         setEvents(modifiedEvents);
+      /*
         const categ = [];
         for (let i = 0; i < idscategorias.length; i++) {
             if (idscategorias[i])
@@ -189,18 +198,19 @@ const CalendarApp = (state: CalendarAppState): React$Element<React$FragmentType>
                     id: modifiedEvents.length + 1,
                     title: data.title,
                     start: dateInfo ? dateInfo.date : new Date(),
-                    className: data.className,
+                    className: estados[Number(data.estados-1)],
                     idCategoria: idscategorias.join(','),
                     titleCategoria: categorias.join(','),
                     asignar: data.asignar,
                 });
         }
+        */
         setItemStorage({
-            data: categ[0],
+            data: modifiedEvents,
             item: 'storesDataCalendary',
             typeOfStorage: localStorage,
         });
-        //console.log(categ[0]);
+        //
         onCloseModal();
     };
 
@@ -208,10 +218,18 @@ const CalendarApp = (state: CalendarAppState): React$Element<React$FragmentType>
     on update event
     */
     const onUpdateEvent = (data) => {
+        console.log('onUpdate',data)
+       // eslint-disable-next-line array-callback-return
+       const estados = Object.keys(ESTADOS)?.map((key) => {
+        return ESTADOS[key]?.className;
+});
         const modifiedEvents = [...events];
         const idx = modifiedEvents.findIndex((e) => e['id'] === eventData.id);
         modifiedEvents[idx]['title'] = data.title;
-        modifiedEvents[idx]['className'] = data.className;
+        modifiedEvents[idx]['className'] = estados[Number(data.estado-1)];
+        modifiedEvents[idx]['estado'] = data.estado;
+        modifiedEvents[idx]['idCategoria'] = data.idCategoria;
+        modifiedEvents[idx]['asignar'] = data.asignar;
         setEvents(modifiedEvents);
         onCloseModal();
     };
@@ -236,6 +254,7 @@ const CalendarApp = (state: CalendarAppState): React$Element<React$FragmentType>
         pagesInSearch();
     }, []);
     const idUser = 1;
+    //console.log('dateInfo',dateInfo);
     return (
         <>
             <PageTitle
@@ -253,17 +272,8 @@ const CalendarApp = (state: CalendarAppState): React$Element<React$FragmentType>
                             <Row>
                                 <Col lg={3}>
                                     <div className="d-grid">
-                                        {/* add events
-                                        <Button
-                                            className="btn btn-lg font-16 btn-danger"
-                                            id="btn-new-event"
-                                            onClick={onOpenModal}>
-                                            <i className="mdi mdi-plus-circle-outline"></i> Create New Event
-                                        </Button>
-                                        */}
-                                    </div>
-
                                     <SidePanel />
+                                    </div>
                                 </Col>
                                 <Col lg={9}>
                                     {/* fullcalendar control */}
@@ -296,6 +306,8 @@ const CalendarApp = (state: CalendarAppState): React$Element<React$FragmentType>
                     idCategoria={idCategoria}
                     idUser={idUser}
                     categoriaList={categoriaList}
+                    getClassName={getClassName}
+                    classnamed={classnames}
                 />
             ) : null}
         </>

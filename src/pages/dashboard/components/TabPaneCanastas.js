@@ -41,7 +41,7 @@ const [canastas, setcanastas] = useState([]);
         obj={
           "IdCategorias": 1,
           "id": props.list?.canastas[0][id]?.id,
-          "idUser": 1,
+          "idUser": props.idUser,
           "rowid":props.list?.canastas[0][id]?.id,
           "value":props.list?.canastas[0][id]?.id+'.-'+ props.list?.canastas[0][id]?.title,
           "items": props.list?.canastas[0][id]?.items,
@@ -117,7 +117,7 @@ const [canastas, setcanastas] = useState([]);
                               categories={props.categories}
                               onDateValueCategories={props.onDateValueCategories}
                               IdCategorias={props.list?.IdCategorias}
-                              idUser={1}
+                              idUser={props.idUser}
                               title={props.listData?.title}
                             />
                           </Col>
@@ -141,7 +141,7 @@ const [canastas, setcanastas] = useState([]);
                                     item={item.value}
                                     items={item.items}
                                     itemscanasta={canastas}
-                                    idUser={1}
+                                    idUser={props.idUser}
                                    />;
                                 })}
                             </div>

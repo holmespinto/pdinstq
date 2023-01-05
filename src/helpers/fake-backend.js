@@ -1,5 +1,6 @@
 import axios from 'axios';
 import MockAdapter from 'axios-mock-adapter';
+import { setItemStorage } from '../pages/dashboard/components/itemStorage';
 
 const TOKEN =
     'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJjb2RlcnRoZW1lcyIsImlhdCI6MTU4NzM1NjY0OSwiZXhwIjoxOTAyODg5NDQ5LCJhdWQiOiJjb2RlcnRoZW1lcy5jb20iLCJzdWIiOiJzdXBwb3J0QGNvZGVydGhlbWVzLmNvbSIsImxhc3ROYW1lIjoiVGVzdCIsIkVtYWlsIjoic3VwcG9ydEBjb2RlcnRoZW1lcy5jb20iLCJSb2xlIjoiQWRtaW4iLCJmaXJzdE5hbWUiOiJIeXBlciJ9.P27f7JNBF-vOaJFpkn-upfEh3zSprYfyhTOYhijykdI';
@@ -10,13 +11,22 @@ export function configureFakeBackend() {
     let users = [
         {
             id: 1,
-            username: 'test',
-            password: 'test',
-            firstName: 'Test',
-            lastName: 'User',
+            username: 'Admin',
+            password: 'admin2023',
+            firstName: 'Administrador',
+            lastName: 'Admin',
             role: 'Admin',
             token: TOKEN,
         },
+        {
+          id: 2,
+          username: 'Docente',
+          password: 'docente2023',
+          firstName: 'Docente',
+          lastName: 'Docente',
+          role: 'Docente',
+          token: TOKEN,
+      }
     ];
 
     mock.onPost('/login/').reply(function (config) {
@@ -33,7 +43,13 @@ export function configureFakeBackend() {
                 if (filteredUsers.length) {
                     // if login details are valid return user details and fake jwt token
                     let user = filteredUsers[0];
+                    setItemStorage({
+                      data: user,
+                      item: 'user',
+                      typeOfStorage: localStorage,
+                  });
                     resolve([200, user]);
+
                 } else {
                     // else return error
                     resolve([401, { message: 'Username or password is incorrect' }]);

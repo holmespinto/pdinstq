@@ -26,9 +26,11 @@ const AddEditReferencia = ({
     onRemoveEvent,
     onUpdateEvent,
     onAddEvent,
+    idUser,
 }: AddEditEventProps): React$Element<any> => {
     // event state
     const [event] = useState(eventData);
+
     const [idRef, setidRef] = React.useState(0);
     const [list] = useState(eventData);
     //console.log('listData',list.canastas[0][0].items)
@@ -71,6 +73,9 @@ const AddEditReferencia = ({
       //console.log(data);
         isEditable ? onUpdateEvent(data) : onAddEvent(data);
     };
+
+
+
     return (
         <Modal show={isOpen} onHide={onClose} backdrop="static" keyboard={false}>
             <Modal.Header className="pb-2 px-4 border-bottom-0" closeButton>

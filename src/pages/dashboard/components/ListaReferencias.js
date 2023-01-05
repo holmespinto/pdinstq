@@ -121,7 +121,7 @@ const ListaReferencias = ({ isOpenlist, onClose, listData, idUser }) => {
             onDateValueCategories={onDateValueCategories}
             onDateReferencias={onDateReferencias}
             IdCategorias={list?.IdCategorias}
-            idUser={1}
+            idUser={idUser}
             title={listData?.title}
             list={list}
             />
@@ -131,7 +131,7 @@ const ListaReferencias = ({ isOpenlist, onClose, listData, idUser }) => {
                 categories={categories}
                 onDateValueCategories={onDateValueCategories}
                 IdCategorias={list?.IdCategorias}
-                idUser={1}
+                idUser={idUser}
                 title={listData?.title}
               />
             )}

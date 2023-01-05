@@ -106,4 +106,11 @@ function SelectTitulosCategorias(local, idUser,idCategoria) {
     return options;
 }
 
-export { allTitles, allIds, SelectTitulosCategorias,allCanastas};
+function getHora(launchDate) {
+    const futureDate = new Date();
+    futureDate.setTime(launchDate.getTime());
+    const fiveMinutesInMillis = 120 * 60 * 1000;
+    futureDate.setTime(futureDate.getTime() + fiveMinutesInMillis);
+    return futureDate;
+}
+export { allTitles, allIds, SelectTitulosCategorias,allCanastas,getHora};

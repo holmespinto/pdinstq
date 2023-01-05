@@ -26,7 +26,7 @@ const Calendar = ({ onDateClick, onEventClick, onDrop, events }: CalendarProps):
         onEventClick(arg);
     };
     const handleDrop = (arg) => {
-        onDrop(arg);
+        //onDrop(arg);
     };
 
     return (
@@ -34,7 +34,7 @@ const Calendar = ({ onDateClick, onEventClick, onDrop, events }: CalendarProps):
             {/* full calendar control */}
             <div id="calendar">
                 <FullCalendar
-                    initialView="timeGridWeek"
+                    initialView="timeGridDay"
                     plugins={[dayGridPlugin, interactionPlugin, timeGridPlugin, listPlugin, BootstrapTheme]}
                     handleWindowResize={true}
                     themeSystem="bootstrap"

@@ -76,9 +76,9 @@ const Login = (): React$Element<any> => {
 
             <AccountLayout bottomLinks={<BottomLink />}>
                 <div className="text-center w-75 m-auto">
-                    <h4 className="text-dark-50 text-center mt-0 fw-bold">{t('Sign In')}</h4>
+                    <h4 className="text-dark-50 text-center mt-0 fw-bold">{t('Ingresar')}</h4>
                     <p className="text-muted mb-4">
-                        {t('Enter your email address and password to access admin panel.')}
+                        {t('Digite su nombre de usuario y password para ingresar al sistema')}
                     </p>
                 </div>
 
@@ -91,22 +91,22 @@ const Login = (): React$Element<any> => {
                 <VerticalForm
                     onSubmit={onSubmit}
                     resolver={schemaResolver}
-                    defaultValues={{ username: 'test', password: 'test' }}>
+                    defaultValues={{ username: '', password: '' }}>
                     <FormInput
                         label={t('Username')}
                         type="text"
                         name="username"
-                        placeholder={t('Enter your Username')}
+                        placeholder={t('Digite su usuario')}
                         containerClass={'mb-3'}
                     />
                     <FormInput
                         label={t('Password')}
                         type="password"
                         name="password"
-                        placeholder={t('Enter your password')}
+                        placeholder={t('Digite su password')}
                         containerClass={'mb-3'}>
                         <Link to="/account/forget-password" className="text-muted float-end">
-                            <small>{t('Forgot your password?')}</small>
+                            <small>{t('Olvidaste tu password?')}</small>
                         </Link>
                     </FormInput>
 
