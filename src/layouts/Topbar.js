@@ -1,18 +1,17 @@
 // @flow
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import classNames from 'classnames';
-
+import { getItemStorage } from '../pages/dashboard/components/itemStorage';
 // actions
 import { showRightSidebar } from '../redux/actions';
 
 // components
 import LanguageDropdown from '../components/LanguageDropdown';
-import NotificationDropdown from '../components/NotificationDropdown';
 import ProfileDropdown from '../components/ProfileDropdown';
-import SearchDropdown from '../components/SearchDropdown';
-import TopbarSearch from '../components/TopbarSearch';
+//import SearchDropdown from '../components/SearchDropdown';
+//import TopbarSearch from '../components/TopbarSearch';
 import AppsDropdown from '../components/AppsDropdown/';
 
 import profilePic from '../assets/images/users/avatar-1.jpg';
@@ -23,58 +22,6 @@ import logo from '../assets/images/logo-light.png';
 //constants
 import * as layoutConstants from '../constants/layout';
 
-// get the notifications
-const Notifications = [
-    {
-        id: 1,
-        text: 'Caleb Flakelar commented on Admin',
-        subText: '1 min ago',
-        icon: 'mdi mdi-comment-account-outline',
-        bgColor: 'primary',
-    },
-    {
-        id: 2,
-        text: 'New user registered.',
-        subText: '5 min ago',
-        icon: 'mdi mdi-account-plus',
-        bgColor: 'info',
-    },
-    {
-        id: 3,
-        text: 'Cristina Pride',
-        subText: 'Hi, How are you? What about our next meeting',
-        icon: 'mdi mdi-comment-account-outline',
-        bgColor: 'success',
-    },
-    {
-        id: 4,
-        text: 'Caleb Flakelar commented on Admin',
-        subText: '4 days ago',
-        icon: 'mdi mdi-comment-account-outline',
-        bgColor: 'danger',
-    },
-    {
-        id: 5,
-        text: 'New user registered.',
-        subText: '5 min ago',
-        icon: 'mdi mdi-account-plus',
-        bgColor: 'info',
-    },
-    {
-        id: 6,
-        text: 'Cristina Pride',
-        subText: 'Hi, How are you? What about our next meeting',
-        icon: 'mdi mdi-comment-account-outline',
-        bgColor: 'success',
-    },
-    {
-        id: 7,
-        text: 'Carlos Crouch liked Admin',
-        subText: '13 days ago',
-        icon: 'mdi mdi-heart',
-        bgColor: 'info',
-    },
-];
 
 // get the profilemenu
 const ProfileMenus = [
@@ -105,27 +52,7 @@ const ProfileMenus = [
     },
 ];
 
-// dummy search results
-const SearchResults = [
-    {
-        id: 1,
-        title: 'Analytics Report',
-        icon: 'uil-notes',
-        redirectTo: '/',
-    },
-    {
-        id: 2,
-        title: 'How can I help you?',
-        icon: 'uil-life-ring',
-        redirectTo: '/',
-    },
-    {
-        id: 3,
-        icon: 'uil-cog',
-        title: 'User profile settings',
-        redirectTo: '/',
-    },
-];
+
 
 type TopbarProps = {
     hideLogo?: boolean,
@@ -135,9 +62,12 @@ type TopbarProps = {
 };
 
 const Topbar = ({ hideLogo, navCssClasses, openLeftMenuCallBack, topbarDark }: TopbarProps): React$Element<any> => {
-    const dispatch = useDispatch();
+
+
+  const dispatch = useDispatch();
 
     const [isopen, setIsopen] = useState(false);
+    const [autor, setAutor] = useState({});
 
     const navbarCssClasses = navCssClasses || '';
     const containerCssClasses = !hideLogo ? 'container-fluid' : '';
@@ -160,7 +90,13 @@ const Topbar = ({ hideLogo, navCssClasses, openLeftMenuCallBack, topbarDark }: T
     const handleRightSideBar = () => {
         dispatch(showRightSidebar());
     };
-
+    useEffect(() => {
+      const userlocal = getItemStorage({
+        typeOfStorage: localStorage,
+        item: 'user',
+      })
+      setAutor({name:userlocal.name,role:userlocal.role});
+    }, []);
     return (
         <React.Fragment>
             <div className={`navbar-custom ${navbarCssClasses}`}>
@@ -178,13 +114,13 @@ const Topbar = ({ hideLogo, navCssClasses, openLeftMenuCallBack, topbarDark }: T
 
                     <ul className="list-unstyled topbar-menu float-end mb-0">
                         <li className="notification-list topbar-dropdown d-xl-none">
-                            <SearchDropdown />
+
                         </li>
                         <li className="dropdown notification-list topbar-dropdown d-none d-lg-block">
                             <LanguageDropdown />
                         </li>
                         <li className="dropdown notification-list">
-                            <NotificationDropdown notifications={Notifications} />
+
                         </li>
                         <li className="dropdown notification-list d-none d-sm-inline-block">
                             <AppsDropdown />
@@ -200,8 +136,8 @@ const Topbar = ({ hideLogo, navCssClasses, openLeftMenuCallBack, topbarDark }: T
                             <ProfileDropdown
                                 profilePic={profilePic}
                                 menuItems={ProfileMenus}
-                                username={'Dominic Keller'}
-                                userTitle={'Founder'}
+                                username={autor.name}
+                                userTitle={autor.role}
                             />
                         </li>
                     </ul>
@@ -237,7 +173,7 @@ const Topbar = ({ hideLogo, navCssClasses, openLeftMenuCallBack, topbarDark }: T
                             </div>
                         </Link>
                     )}
-                    <TopbarSearch items={SearchResults} />
+
                 </div>
             </div>
         </React.Fragment>

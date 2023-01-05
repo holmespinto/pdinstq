@@ -13,6 +13,7 @@ type TarjetasReferenciasProps = {
     bgclassName?: string,
     icon?: string,
     title: string,
+    idUser: number,
     description: string,
     inventario?: string,
     trend: {
@@ -101,6 +102,7 @@ const TarjetasReferencias = (props: TarjetasReferenciasProps): React$Element<any
                             <i className="dripicons-blog" onClick={() => handleListaClick(props.data)}></i>
                         </OverlayTrigger>
                     </Link>
+                     {props.idUser===1 && (
                     <Link to={`/dashboard/configuracion/admin?p=${props.IdCategorias}`} className="btn btn-link btn-lg text-muted shadow-none">
                         <OverlayTrigger
                             placement="top"
@@ -112,6 +114,7 @@ const TarjetasReferencias = (props: TarjetasReferenciasProps): React$Element<any
                             <i className="dripicons-gear"></i>
                         </OverlayTrigger>
                     </Link>
+                      )}
                 </Col>
             </Card.Body>
         </Card>

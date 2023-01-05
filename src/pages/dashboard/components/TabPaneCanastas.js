@@ -88,7 +88,7 @@ const [canastas, setcanastas] = useState([]);
                       <Tab.Pane eventKey={tab.title} id={tab.id} key={index}>
                         <Row>
                           <Col sm="12 mt-1">
-                          <Alert variant={'success'} key={index}>
+                          <Alert variant={'success'}>
                             <i className={('dripicons-information','me-2 pd-1')}></i><strong>{tab.text}</strong>
                           </Alert>
                             <FormInput

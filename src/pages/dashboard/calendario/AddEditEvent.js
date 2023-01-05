@@ -120,6 +120,7 @@ const AddEditEvent = ({
     useEffect(() => {
         if (categoriaList?.length === 0) {
             const options = SelectTitulosCategorias('storesDataRef', idUser, idCategoria);
+            console.log("categoriaList",options)
             setOpcionesCategorias(options);
         } else {
             setOpcionesCategorias(categoriaList);

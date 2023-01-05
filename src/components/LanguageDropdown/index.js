@@ -4,33 +4,19 @@ import { Link } from 'react-router-dom';
 import { Dropdown } from 'react-bootstrap';
 
 import enFlag from './flags/us.jpg';
-import germanyFlag from './flags/germany.jpg';
-import italyFlag from './flags/italy.jpg';
 import spainFlag from './flags/spain.jpg';
-import russiaFlag from './flags/russia.jpg';
 
 // get the languages
 const Languages = [
-    {
+  {
+    name: 'Spanish',
+    flag: spainFlag,
+},
+  {
         name: 'English',
         flag: enFlag,
-    },
-    {
-        name: 'German',
-        flag: germanyFlag,
-    },
-    {
-        name: 'Italian',
-        flag: italyFlag,
-    },
-    {
-        name: 'Spanish',
-        flag: spainFlag,
-    },
-    {
-        name: 'Russian',
-        flag: russiaFlag,
-    },
+    }
+
 ];
 
 const LanguageDropdown = (): React$Element<any> => {

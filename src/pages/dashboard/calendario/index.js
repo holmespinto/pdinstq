@@ -7,7 +7,7 @@ import classNames from 'classnames';
 
 // components
 import PageTitle from '../../../components/PageTitle';
-import { setItemStorage } from '../components/itemStorage.ts';
+import { setItemStorage,getItemStorage } from '../components/itemStorage.ts';
 
 import Calendar from './Calendar';
 import AddEditEvent from './AddEditEvent';
@@ -18,6 +18,7 @@ import { defaultEvents, docentes } from './data';
 import { ESTADOS } from '../Project/menu';
 
 const SidePanel = () => {
+
     return (
         <>
             <div id="external-events" className="m-t-20">
@@ -53,7 +54,12 @@ type CalendarAppState = {
 };
 
 const CalendarApp = (state: CalendarAppState): React$Element<React$FragmentType> => {
-    /*
+  const localusers = getItemStorage({
+    typeOfStorage: localStorage,
+    item: 'user',
+  })
+  const [users] = useState(localusers);
+  /*
      * modal handeling
      */
     const [show, setShow] = useState(false);
@@ -65,6 +71,8 @@ const CalendarApp = (state: CalendarAppState): React$Element<React$FragmentType>
     };
     const onOpenModal = () => setShow(true);
     const [isEditable, setIsEditable] = useState(false);
+    const [autor, setAutor] = useState(0);
+    const [listdocentes,setListaDocente] = useState(docentes);
 
     /*
      * event data
@@ -253,8 +261,15 @@ const CalendarApp = (state: CalendarAppState): React$Element<React$FragmentType>
         };
         pagesInSearch();
     }, []);
-    const idUser = 1;
-    //console.log('dateInfo',dateInfo);
+
+    useEffect(() => {
+      setAutor(users.id);
+      if(users.id===1){
+        setListaDocente(docentes)
+      }else{
+        setListaDocente([users])
+      }
+    }, [users]);
     return (
         <>
             <PageTitle
@@ -302,9 +317,9 @@ const CalendarApp = (state: CalendarAppState): React$Element<React$FragmentType>
                     onAddEvent={onAddEvent}
                     setMultiSelections={setMultiSelections}
                     todoData={todoData}
-                    docentes={docentes}
+                    docentes={listdocentes}
                     idCategoria={idCategoria}
-                    idUser={idUser}
+                    idUser={autor}
                     categoriaList={categoriaList}
                     getClassName={getClassName}
                     classnamed={classnames}

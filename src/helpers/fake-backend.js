@@ -12,6 +12,10 @@ export function configureFakeBackend() {
         {
             id: 1,
             username: 'Admin',
+            name: 'Aministrador',
+            phone: '(809) 2120936',
+            email: 'dtindley4@so-net.ne.jp',
+            status: 'Blocked',
             password: 'admin2023',
             firstName: 'Administrador',
             lastName: 'Admin',
@@ -21,6 +25,11 @@ export function configureFakeBackend() {
         {
           id: 2,
           username: 'Docente',
+          name: 'Docente',
+          phone: '(809) 2120936',
+          email: 'dtindley4@so-net.ne.jp',
+          status: 'Blocked',
+          location: 'Colombia',
           password: 'docente2023',
           firstName: 'Docente',
           lastName: 'Docente',
@@ -28,7 +37,6 @@ export function configureFakeBackend() {
           token: TOKEN,
       }
     ];
-
     mock.onPost('/login/').reply(function (config) {
         return new Promise(function (resolve, reject) {
             setTimeout(function () {

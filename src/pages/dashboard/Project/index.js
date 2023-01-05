@@ -79,11 +79,11 @@ const onRemoveEvent = () => {
 };
 
 useEffect(() => {
-  const apartados = getItemStorage({
+  const user = getItemStorage({
     typeOfStorage: localStorage,
     item: 'user',
   })
-  setAutor(apartados.idUser);
+  setAutor(user.id);
 }, []);
 
 return (
