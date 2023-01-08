@@ -59,6 +59,7 @@ const CalendarApp = (state: CalendarAppState): React$Element<React$FragmentType>
     item: 'user',
   })
   const [users] = useState(localusers);
+
   /*
      * modal handeling
      */
@@ -145,6 +146,7 @@ const CalendarApp = (state: CalendarAppState): React$Element<React$FragmentType>
             asignar: arg.event.extendedProps.asignar,
             idCategoria: arg.event.extendedProps.idCategoria,
             estado: arg.event.extendedProps.estado,
+            idUser:users.id
         };
 
         setEventData(event);
@@ -194,7 +196,8 @@ const CalendarApp = (state: CalendarAppState): React$Element<React$FragmentType>
             idCategoria: idscategorias.join(','),
             titleCategoria: categorias.join(','),
             asignar: data.asignar,
-            estado:data.estado
+            estado:data.estado,
+            idUser:users.id
         };
         modifiedEvents.push(event);
         setEvents(modifiedEvents);

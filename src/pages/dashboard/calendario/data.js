@@ -1,4 +1,3 @@
-
 const defaultEvents = [
     {
         id: 1,
@@ -10,6 +9,7 @@ const defaultEvents = [
         titleCategoria: '',
         asignar:1,
         estado:1,
+        idUser:1
     },
     {
         id: 2,
@@ -21,6 +21,7 @@ const defaultEvents = [
         titleCategoria: '',
         asignar:2,
         estado:3,
+        idUser:1
     },
     {
         id: 3,
@@ -32,6 +33,7 @@ const defaultEvents = [
         titleCategoria: '',
         asignar:2,
         estado:4,
+        idUser:1
     },
     {
         id: 4,
@@ -43,12 +45,13 @@ const defaultEvents = [
         asignar:2,
         titleCategoria: '',
         estado:2,
+        idUser:1
     },
 ];
 const docentes = [
   {
       id: 1,
-      name: 'Abagael Breslau',
+      name: 'Jose Antonio Polo',
       phone: '(461) 3636077',
       email: 'abreslau0@wiley.com',
       location: 'China',
@@ -58,7 +61,7 @@ const docentes = [
   },
   {
       id: 2,
-      name: 'Veradis Taber',
+      name: 'Maria del Carme Daza',
       phone: '(917) 2590629',
       email: 'vtaber1@ucoz.com',
       location: 'Venezuela',
@@ -68,7 +71,7 @@ const docentes = [
   },
   {
       id: 3,
-      name: 'Lindon Ceeley',
+      name: 'Jose Martinez',
       phone: '(925) 9515307',
       email: 'lceeley2@fotki.com',
       location: 'Panama',
@@ -78,7 +81,7 @@ const docentes = [
   },
   {
       id: 4,
-      name: 'Mendel Alfonzo',
+      name: 'Alfonzo Mejia',
       phone: '(295) 3668262',
       email: 'malfonzo3@irs.gov',
       location: 'France',
@@ -88,7 +91,7 @@ const docentes = [
   },
   {
       id: 5,
-      name: 'Dorrie Tindley',
+      name: 'Juan Pablo Hernandez',
       phone: '(809) 2120936',
       email: 'dtindley4@so-net.ne.jp',
       location: 'Colombia',
@@ -97,4 +100,8 @@ const docentes = [
       avatar: 'https://robohash.org/quodfugiatquae.png?size=60x60&set=set1',
   }
 ];
+
+
+
+
 export { defaultEvents,docentes };
