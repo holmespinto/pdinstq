@@ -1,4 +1,4 @@
-import React, {useEffect,useState} from 'react';
+import React, {useCallback, useEffect,useState} from 'react';
 
 import { Row, Col, Card } from 'react-bootstrap';
 //import classnames from 'classnames';
@@ -13,6 +13,24 @@ const api = new APICore();
 
 const SelectReferencias = (props) => {
   const [referencias, setReferencias] = useState([]);
+  const [data, cargarCategorias] = useState([]);
+
+  const ListaInstrumentos = useCallback(() => {
+    let url = '';
+    if (Number(props.idRef) > 0) {
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+        url = `${environment.baseURL}accion=instrumentos&opcion=consultar&idReferencia=${props.idRef}&tipo=${props.nsecion}`;
+    } else {
+        url = `${environment.baseURL}accion=instrumentos&opcion=consultar&tipo=${props.nsecion}`;
+    }
+    const syllab = api.getDatos(`${url}`);
+    syllab.then(function (resp) {
+        if (resp.length>0) {
+          cargarCategorias(resp)
+        }
+    });
+  },[props.idRef, props.nsecion])
+
   useEffect(() => {
     const url =  props.nsecion!==1? `${environment.baseURL}accion=instreferencias&opcion=consultar`:`${environment.baseURL}accion=instcategorias&opcion=consultar`
     const syllab = api.getDatos(`${url}`);
@@ -32,7 +50,12 @@ const SelectReferencias = (props) => {
     });
   }, [props]);
 
-  //console.log('idRef',props.idRef)
+  //const [records, openCategoriass] = useState([]);
+  useEffect(() => {
+    ListaInstrumentos()
+  }, [ListaInstrumentos]);
+
+ /// console.log('idRef',data)
     return (
         <>
             <Card>
@@ -58,7 +81,15 @@ const SelectReferencias = (props) => {
                                 })}
                             </FormInput>
                         </Col>
-                        <TableInstrumentos IdReferencia={props.idRef} referencias={referencias} session={props.session} nsecion={props.nsecion}/>
+                        <TableInstrumentos
+                         IdReferencia={props.idRef}
+                         referencias={referencias}
+                         session={props.session}
+                         nsecion={props.nsecion}
+                          onDateReferencias={props.onDateReferencias}
+                          data={data}
+                          ListaInstrumentos={ListaInstrumentos}
+                          />
                     </Row>
                 </Card.Body>
             </Card>

@@ -11,10 +11,10 @@ import TableItems from './TableItems';
 const ListaReferencias = ({ isOpenlist, onClose, listData, idUser }) => {
     // event state
 
-    const [idRef, setidRef] = React.useState(0);
+    //const [idRef, setidRef] = React.useState(0);
     const [list] = useState(listData);
     //console.log('listData',list.canastas[0][0].items)
-    const [data, setDatos] = useState([]);
+    //const [data, setDatos] = useState([]);
     const [categories, setCategories] = useState([]);
 
     const onDateValueCategories = (e) => {
@@ -92,17 +92,18 @@ const ListaReferencias = ({ isOpenlist, onClose, listData, idUser }) => {
             typeOfStorage: localStorage,
         });
 
-        setidRef(arg);
+       // setidRef(arg);
 
         //DESDE AQUI SE PUEDE ACTUALIZAR LALISTA DE REFERENCIAS SELECCIONADAS
 
     };
-
+/*
     useEffect(() => {
         list?.IdCategorias === 1
             ? setDatos([list?.canastas[0][idRef]?.items])
             : setDatos([list?.canastas[0][0]?.items]);
     }, [idRef, list]);
+*/
 
     return (
     <Modal show={isOpenlist} onHide={onClose} backdrop="static" keyboard={false} size={'xl'}>
@@ -116,7 +117,7 @@ const ListaReferencias = ({ isOpenlist, onClose, listData, idUser }) => {
           <Col sm={12}>
             {list?.IdCategorias === 1 ? (
             <TabPaneCanastas
-            data={data}
+            data={list}
             categories={categories}
             onDateValueCategories={onDateValueCategories}
             onDateReferencias={onDateReferencias}
@@ -127,7 +128,7 @@ const ListaReferencias = ({ isOpenlist, onClose, listData, idUser }) => {
             />
             ) : (
               <TableItems
-                data={data}
+                data={list}
                 categories={categories}
                 onDateValueCategories={onDateValueCategories}
                 IdCategorias={list?.IdCategorias}

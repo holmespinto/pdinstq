@@ -1,9 +1,13 @@
+/* eslint-disable array-callback-return */
 // @flow
 import React, { useState, useEffect } from 'react';
 import { Card, Col, OverlayTrigger, Tooltip } from 'react-bootstrap';
 import classNames from 'classnames';
 import { Link } from 'react-router-dom';
 import { getItemStorage } from './itemStorage.ts';
+import { environment } from '../../../environments/environments';
+import { APICore } from '../../../helpers/api/apiCore';
+const api = new APICore();
 
 type TarjetasReferenciasProps = {
     onDateClick: (value: any) => void,
@@ -33,6 +37,7 @@ type TarjetasReferenciasProps = {
 
 const TarjetasReferencias = (props: TarjetasReferenciasProps): React$Element<any> => {
     const [total, setTotal] = useState(0);
+    const [instrumentos, setInstrumentos] = useState([]);
 
     const handleListaClick = (arg) => {
         props.onListaClick(arg);
@@ -49,25 +54,32 @@ const TarjetasReferencias = (props: TarjetasReferenciasProps): React$Element<any
         setTotal(Totals);
     }, [props.IdCategorias]);
 
+    useEffect(() => {
+      const url = `${environment.baseURL}accion=instrumentos&opcion=consultarinstrumentos&idCategorias=${props.IdCategorias}`
+      const datos = api.getDatos(`${url}`);
+      datos.then(function (resp) {
+          if (resp?.length>0) {
+            setInstrumentos(resp);
+          }
+      });
+    }, [props.IdCategorias]);
+
+        //console.log('instrumentos',instrumentos)
     return (
         <Card className={classNames('widget-flat', props.bgclassName)}>
             <Card.Body>
                 {props.icon && (
                     <div className="float-end">
-                        <i className={classNames(props.icon, '')}>{total}</i>
+                        <i className={classNames(props.icon, '')}>{instrumentos[0]?.inventario?instrumentos[0]?.inventario:'0'}</i>
                     </div>
                 )}
                 <h5 className={classNames('text-decoration-underline', 'mt-0', textClass)} title={props.description}>
-                    {props.title}
+                    {props.IdCategorias}-{props.title}
                 </h5>
-                <h3 className={classNames('mt-3', 'mb-3', props.textClass ? props.textClass : null)}>
-                    {props.totalcantidad}
-                </h3>
-
                 {props.trend && (
                     <p className={classNames('mb-0', textClass)}>
                         <span className={classNames(props.trend.textClass, 'me-2')}>
-                            <i className={classNames(props.trend.icon)}></i> {props.totalreservado}
+                            <i className={classNames(props.trend.icon)}></i>{instrumentos[0]?.reservado?instrumentos[0]?.reservado:'0'}
                         </span>
                         <span className="text-nowrap">{props.trend.time}</span>
                     </p>
@@ -99,7 +111,7 @@ const TarjetasReferencias = (props: TarjetasReferenciasProps): React$Element<any
                                     <em>Ver</em> <u> Instrumentos</u> <b>de esta referencia</b>
                                 </Tooltip>
                             }>
-                            <i className="dripicons-blog" onClick={() => handleListaClick(props.data)}></i>
+                            <i className="dripicons-blog" onClick={() => handleListaClick(instrumentos)}></i>
                         </OverlayTrigger>
                     </Link>
                      {props.idUser===1 && (

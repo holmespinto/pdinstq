@@ -45,9 +45,21 @@ const ActionColumn = ({ row }) => {
 
     const toggleSignUp = () => {
         setSignUpModal(!signUpModal);
+
     };
 
-    const eliminar = () => {};
+    const eliminar = (temas) => {
+
+      const url = `${environment.baseURL}accion=instrumentos&opcion=eliminar&id=${temas}`;
+      const respuesta = api.getDatos(`${url}`);
+      respuesta.then(function (resp) {
+          if (resp) {
+              Swal.fire('' + resp[0].menssage + '');
+          }
+          setTemas([]);
+          //ListaInstrumentos()
+      });
+    };
 
     const actualizar = (event) => {
         const form = event.currentTarget;
@@ -72,8 +84,11 @@ const ActionColumn = ({ row }) => {
             respuesta.then(function (resp) {
                 if (resp) {
                     Swal.fire('' + resp[0].menssage + '');
+                    setTemas([]);
+                    //ListaInstrumentos()
                 }
             });
+
         }
     };
 
@@ -83,6 +98,8 @@ const ActionColumn = ({ row }) => {
         setTemas([]);
     };
     //console.log(row);
+
+
     return (
         <React.Fragment>
             <Modal show={signUpModal} onHide={toggleSignUp}>
@@ -130,19 +147,6 @@ const ActionColumn = ({ row }) => {
                                 Por favor, digite la referencia.
                             </Form.Control.Feedback>
                         </Form.Group>
-                        <Form.Group className="mb-3" controlId="IdReferencia">
-                            <Form.Label></Form.Label>
-                            <Form.Control
-                                required
-                                type="hidden"
-                                name="IdReferencia"
-                                placeholder="Digite la referencia para la Canasta"
-                                value={temas.IdReferencia}
-                            />
-                            <Form.Control.Feedback type="invalid">
-                                Por favor, digite el IdReferencia.
-                            </Form.Control.Feedback>
-                        </Form.Group>
                         <Form.Group className="mb-3" controlId="status">
                             <Form.Label>Status</Form.Label>
                             <Select
@@ -178,7 +182,7 @@ const ActionColumn = ({ row }) => {
                 {' '}
                 <i className="mdi mdi-square-edit-outline"></i>
             </Link>
-            <Link to="#" className="action-icon" onClick={() => eliminar()}>
+            <Link to="#" className="action-icon" onClick={() => eliminar(temas.id)}>
                 {' '}
                 <i className="mdi mdi-delete"></i>
             </Link>
@@ -191,7 +195,7 @@ const columns = [
         accessor: 'action',
         sort: false,
         classes: 'table-action',
-        Cell: ActionColumn,
+        Cell: ActionColumn ,
     },
     {
         Header: 'ID',
@@ -254,7 +258,6 @@ const FormActividades = (props) => {
     const [validated, setValidated] = useState(false);
     const [temas, setTemas] = useState([]);
     const [titulo, setTitulo] = useState([]);
-
     const guardar = (event) => {
         const form = event.currentTarget;
         if (form.checkValidity() === false) {
@@ -263,6 +266,7 @@ const FormActividades = (props) => {
         }
         setValidated(true);
         if (validated) {
+
             let response;
             if (temas) {
                 var queryString = temas
@@ -273,7 +277,8 @@ const FormActividades = (props) => {
             }
             response = queryString;
 
-            const url = `${environment.baseURL}accion=instrumentos&opcion=guardar&${response}`;
+            const url = `${environment.baseURL}accion=instrumentos&opcion=guardar&${response}&IdReferencia=${props?.IdReferencia}`;
+            //console.log('IdReferencia',url)
             const respuesta = api.getDatos(`${url}`);
             respuesta.then(function (resp) {
                 if (resp) {
@@ -281,6 +286,8 @@ const FormActividades = (props) => {
                 }
             });
             setTemas([])
+            props.onDateReferencias(props.IdReferencia)
+            props.ListaInstrumentos()
         }
 
     };
@@ -293,15 +300,13 @@ const FormActividades = (props) => {
     return (
         <Card>
             <Card.Body>
-                {/* Sign up Modal */}
                 <Modal show={props.signUpModal} onHide={props.toggleSignUp}>
                     <Modal.Body>
                         <div className="text-center mt-2 mb-4">
                             <a href="/">
                                 <span>
-                                   {titulo.title}
+                                   {titulo?.title}
                                 </span>
-                                <span></span>
                             </a>
                         </div>
                         <Form validated={validated}>
@@ -313,7 +318,7 @@ const FormActividades = (props) => {
                                     name="title"
                                     placeholder="Digite la referencia para la Canasta"
                                     value={temas.title}
-                                    onChange={(e) => setTemas({ ...temas, title: e.target.value,nsecion:props.nsecion })}
+                                    onChange={(e) => setTemas({ ...temas, title: e.target.value,nsecion:props.nsecion})}
                                 />
                                 <Form.Control.Feedback type="invalid">
                                     Por favor, digite la {props.session}.
@@ -327,7 +332,7 @@ const FormActividades = (props) => {
                                     name="description"
                                     placeholder="Digite la referencia para la Canasta"
                                     value={temas.description}
-                                    onChange={(e) => setTemas({ ...temas, description: e.target.value,nsecion:props.nsecion })}
+                                    onChange={(e) => setTemas({ ...temas, description: e.target.value,nsecion:props.nsecion})}
                                 />
                                 <Form.Control.Feedback type="invalid">
                                     Por favor, digite la Descripcion.
@@ -347,21 +352,6 @@ const FormActividades = (props) => {
                                     Por favor, digite la {props.session}.
                                 </Form.Control.Feedback>
                             </Form.Group>
-                            <Form.Group className="mb-3" controlId="idReferencia">
-                                <Form.Label></Form.Label>
-                                <Form.Control
-                                    required
-                                    type="number"
-                                    name="idReferencia"
-                                    placeholder={props.IdReferencia}
-                                    value={temas.idReferencia}
-                                    onChange={(e) => setTemas({ ...temas, idReferencia: e.target.value,nsecion:props.nsecion })}
-                                />
-                                <Form.Control.Feedback type="invalid">
-                                    Por favor, digite el {props.session}.
-                                </Form.Control.Feedback>
-                            </Form.Group>
-
                             <div className="button-list">
                                 <Button type="button" disabled={temas.message ? 'true' : ''} onClick={guardar}>
                                     +
@@ -389,47 +379,9 @@ type referencias = {
     onState: (date: Array) => void,
 };
 const TableInstrumentos = (props: referencias): React$Element<any> => {
-    const [records, openCategoriass] = useState([]);
-    const [data, cargarCategorias] = useState([]);
     const [signUpModal, setSignUpModal] = useState(false);
 
-    useEffect(() => {
-      let url = '';
-        if (Number(props.IdReferencia) > 0) {
-            // eslint-disable-next-line react-hooks/exhaustive-deps
-            url = `${environment.baseURL}accion=instrumentos&opcion=consultar&idReferencia=${props.IdReferencia}&tipo=${props.nsecion}`;
-        } else {
-            url = `${environment.baseURL}accion=instrumentos&opcion=consultar&tipo=${props.nsecion}`;
-        }
-
-        const syllab = api.getDatos(`${url}`);
-        syllab.then(function (resp) {
-            if (resp) {
-                //console.log(resp);
-                openCategoriass(resp);
-            } else {
-                const records = [
-                    {
-                        IdCategorias: 1,
-                        title: 'No existen referencia cargadas a este  categoria',
-                        status: 'null',
-                    },
-                ];
-                cargarCategorias(records);
-            }
-        });
-    }, [props.IdReferencia, props.nsecion]);
-
-    useEffect(() => {
-        if (records && records.length > 0) {
-            //const cur = JSON.parse(records);
-            const mapped = [];
-            mapped.push(records);
-            cargarCategorias(mapped[0]);
-        }
-    }, [records]);
-
-    const toggleSignUp = () => {
+       const toggleSignUp = () => {
         if (props.IdReferencia > 0) {
             setSignUpModal(!signUpModal);
         } else {
@@ -441,6 +393,8 @@ const TableInstrumentos = (props: referencias): React$Element<any> => {
         setSignUpModal(false);
         // agregarsetTemas([]);
     };
+
+
     return (
         <>
             <Row>
@@ -448,9 +402,8 @@ const TableInstrumentos = (props: referencias): React$Element<any> => {
                     <Card>
                         <Card.Body>
                             <h4 className="header-title">No. {props.session}: {props.IdReferencia}</h4>
-
                             <Row>
-                                <Col sm={4}>
+                                <Col sm={12} className='d-sm-none'>
                                     <FormActividades
                                         signUpModal={signUpModal}
                                         Close={Close}
@@ -458,20 +411,29 @@ const TableInstrumentos = (props: referencias): React$Element<any> => {
                                         IdReferencia={props.IdReferencia}
                                         referencias={props.referencias}
                                         nsecion={props.nsecion}
+                                        onDateReferencias={props.onDateReferencias}
+                                        ListaInstrumentos={props.ListaInstrumentos}
+
 
                                     />
                                 </Col>
-                                <Col sm={8}>
+                                </Row>
+                                <Row>
+                                <Col sm={12}>
                                     <div className="text-sm-end">
                                         <Button className="btn btn-success mb-2 me-1" onClick={toggleSignUp}>
                                             <i className="mdi mdi-cog-outline"></i>
                                         </Button>
+                                        <Button className="btn btn-success mb-2 me-1" onClick={props.ListaInstrumentos}>
+                                            <i className="mdi mdi-refresh-circle"></i>
+                                        </Button>
                                     </div>
                                 </Col>
                             </Row>
+                            {props?.data&&(
                             <Table
                                 columns={columns}
-                                data={data}
+                                data={props?.data}
                                 pageSize={5}
                                 sizePerPageList={sizePerPageList}
                                 isSortable={true}
@@ -479,7 +441,8 @@ const TableInstrumentos = (props: referencias): React$Element<any> => {
                                 theadClass="table-light"
                                 searchBoxClass="mt-2 mb-3"
                                 isSearchable={true}
-                            />
+                            />)
+                          }
                         </Card.Body>
                     </Card>
                 </Col>

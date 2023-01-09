@@ -19,6 +19,7 @@ const TableItems = (props) => {
 }, [props.categories]);
 
 const totalCan = getnumbercategorias(props.IdCategorias,props.idUser)
+console.log('props.data',props.data[0]?.children)
     return (
         <>
             <Card>
@@ -38,7 +39,7 @@ const totalCan = getnumbercategorias(props.IdCategorias,props.idUser)
                         </thead>
                         <tbody>
                             {
-                            props.data[0]?.map((record, index) => {
+                            props.data[0]?.children?.map((record, index) => {
                             const apartado = props.IdCategorias === 1 ? 1:getpedidos(record.id,props.IdCategorias,props.idUser)
                                 return (
                                     <tr key={index}>
@@ -46,15 +47,15 @@ const totalCan = getnumbercategorias(props.IdCategorias,props.idUser)
                                             <>
                                                 <th scope="row">{record.id}</th>
                                                 <td>{record.title}</td>
-                                                <td>{record.cantidad}</td>
-                                                <td>{props.IdCategorias === 1 ?record.cantidad :record.cantidad-descuento.descuento}</td>
+                                                <td>{record.inventario}</td>
+                                                <td>{props.IdCategorias === 1 ?record.inventario :record.inventario-descuento.reservado}</td>
                                                 <td>
                                                 {props.IdCategorias !== 1 ? (
                                                 <Count
                                                         IdCategorias={props.IdCategorias}
                                                         title={record.title}
                                                         defaultValue={apartado}
-                                                        cantidad={record.cantidad}
+                                                        cantidad={record.inventario}
                                                         idUser={props.idUser}
                                                         onDateValueCategories={props.onDateValueCategories}
                                                         counter={{ ...props.data}}
@@ -69,15 +70,15 @@ const totalCan = getnumbercategorias(props.IdCategorias,props.idUser)
                                             <>
                                                 <th scope="row">{record.id}</th>
                                                 <td>{record.title}</td>
-                                                <td>{record.cantidad}</td>
-                                                <td>{props.IdCategorias === 1 ?record.cantidad :record.cantidad-apartado}</td>
+                                                <td>{record.inventario}</td>
+                                                <td>{props.IdCategorias === 1 ?record.inventario :record.inventario-apartado}</td>
                                                 <td>
                                                 {props.IdCategorias !== 1 ? (
                                                     <Count
                                                         IdCategorias={props.IdCategorias}
                                                         title={record.title}
                                                         defaultValue={apartado}
-                                                        cantidad={record.cantidad}
+                                                        cantidad={record.inventario}
                                                         idUser={props.idUser}
                                                         onDateValueCategories={props.onDateValueCategories}
                                                         counter={{ ...props.data}}

@@ -10,6 +10,9 @@ import PageTitle from '../../../components/PageTitle';
 import TarjetasReferencias from '../components/TarjetasReferencias';
 import ListaReferencias from '../components/ListaReferencias';
 import { getItemStorage } from '../components/itemStorage';
+import { environment } from '../../../environments/environments';
+import { APICore } from '../../../helpers/api/apiCore';
+const api = new APICore();
 const ProjectDashboardPage = (): React$Element<React$FragmentType> => {
 /*
      * modal handeling
@@ -30,6 +33,8 @@ const onCloseModal = () => {
 const onOpenModal = () => setShow(true);
 const onOpenModalLista = () => setShowLista(true);
 const [isEditable, setIsEditable] = useState(false);
+const [categorias, setCategorias] = useState([]);
+//const [instrumentos, setInstrumentos] = useState(0);
 /*
  * event data
  */
@@ -86,6 +91,17 @@ useEffect(() => {
   setAutor(user.id);
 }, []);
 
+useEffect(() => {
+  const url = `${environment.baseURL}accion=instcategorias&opcion=consultar`
+  const datos = api.getDatos(`${url}`);
+  datos.then(function (resp) {
+      if (resp.length>0) {
+          setCategorias(resp);
+      }
+  });
+}, []);
+
+console.log('instcategorias',categorias)
 return (
         <React.Fragment>
             <PageTitle
@@ -96,29 +112,24 @@ return (
                 title={'Categorias'}
             />
             <Row>
-            {CATEGORIAS_ITEMS?.map((p, index) => (
-
+            {categorias?.map((p, index) => (
             <Col xxl={3} lg={6} key={index}>
+                  <span >{p?.IdCategorias}</span>
                     <TarjetasReferencias
-                        icon={p.totalcantidad>p.totalreservado ? 'bg-success rounded-circle text-white w-27 ms-1 p-1' : 'bg-danger rounded-circle text-white w-27 ms-1 p-1'}
+                        icon={p?.inventario>p.reservado ? 'bg-success rounded-circle text-white w-27 ms-1 p-1' : 'bg-danger rounded-circle text-white w-27 ms-1 p-1'}
                         description="Number of Customers"
                         // eslint-disable-next-line no-undef
-                        title={p.title.toUpperCase()}
-                        totalcantidad={p.totalcantidad}
-                        IdCategorias={p.IdCategorias}
-                        totalreservado={p.totalreservado}
+                        title={p?.title.toUpperCase()}
+                        totalcantidad={p?.inventario}
+                        IdCategorias={p?.IdCategorias}
+                        totalreservado={p?.reservado}
                         onDateClick={onDateClick}
                         onListaClick={onListaClick}
                         trend={{
                             textClass: 'badge bg-info',
                             icon: 'mdi mdi-arrow-down-bold',
-                            stock:p.stock,
-                            time: p.description,
-                        }}
-                        data={{
-                            IdCategorias:p.IdCategorias,
-                            title:p.title,
-                            canastas:[p?.canastas]
+                            stock:p?.inventario,
+                            time: p?.description,
                         }}
                         idUser={autor}
                         ></TarjetasReferencias>
