@@ -5,10 +5,10 @@ import classnames from 'classnames';
 
 // components
 import { FormInput } from '../../../components';
-import TableItems from './TableItems';
+import ListaCanastasTable from './ListaCanastasTable';
 import ListaCanastasAdd from './ListaCanastasAdd';
 import { allCanastas } from '../calendario/functions';
-
+//import {getItemStorage } from './itemStorage.ts';
 
 const tabContents = [
   {
@@ -25,38 +25,33 @@ const tabContents = [
   },
 ];
 const TabPaneCanastas = (props) => {
-const [canastas, setcanastas] = useState([]);
+const [canastasadd, setCanastasAdd] = useState([]);
 
 
   useEffect(() => {
     let titulos = []
     let obj = {}
-    const ids = allCanastas(props.list?.canastas[0], props.idUser);
-    if (ids.length>=0) {
+    const ids = allCanastas(props.idUser);
+    if (ids.length>0) {
+
       // eslint-disable-next-line array-callback-return
       ids?.map((id, index) => {
-        if (id=>0)
-        if(props.list?.canastas[0][id]?.id !=='undefined')
-
+        if (Number(id)>=0)
         obj={
-          "IdCategorias": 1,
-          "id": props.list?.canastas[0][id]?.id,
+          "IdCategorias": props.referencias[id]?.IdCategorias,
+          "id": props.referencias[id]?.id,
           "idUser": props.idUser,
-          "rowid":props.list?.canastas[0][id]?.id,
-          "value":props.list?.canastas[0][id]?.id+'.-'+ props.list?.canastas[0][id]?.title,
-          "items": props.list?.canastas[0][id]?.items,
-
+          "rowid":props.referencias[id]?.id,
+          "value":props.referencias[id-1]?.title
         }
-
           titulos.push(obj);
       });
-      const titu = titulos.filter((item) =>
-      item.id !== undefined
-  );
-      setcanastas(titu)
+    setCanastasAdd(titulos)
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [props.list?.canastas[0]]);
+  }, [props]);
+
+
   return (
     <>
       <Card>
@@ -101,10 +96,10 @@ const [canastas, setcanastas] = useState([]);
                               onChange={(e) => {
                                 props.onDateReferencias(
                                   Number(e.target.value),
-                                  props.list?.canastas[0]
+                                  props?.referencias
                                 );
                               }}>
-                              {props.list?.canastas[0]?.map((p, index) => {
+                              {props.referencias?.map((p, index) => {
                                 return (
                                   <option value={p.id} key={index}>
                                     {p.title}
@@ -112,9 +107,8 @@ const [canastas, setcanastas] = useState([]);
                                 );
                               })}
                             </FormInput>
-                            <TableItems
+                            <ListaCanastasTable
                               data={props.data}
-                              categories={props.categories}
                               onDateValueCategories={props.onDateValueCategories}
                               IdCategorias={props.list?.IdCategorias}
                               idUser={props.idUser}
@@ -133,14 +127,14 @@ const [canastas, setcanastas] = useState([]);
 
                             <div className="accordion custom-accordion">
                                 {
-                                canastas?.map((item, index) => {
+                                canastasadd?.map((item, index) => {
 
                                     return <ListaCanastasAdd
                                     key={index}
                                     itemid={item.id}
                                     item={item.value}
                                     items={item.items}
-                                    itemscanasta={canastas}
+                                    itemscanasta={[]}
                                     idUser={props.idUser}
                                    />;
                                 })}

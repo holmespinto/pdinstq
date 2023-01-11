@@ -50,8 +50,8 @@ function allIds(todoData) {
         return idUnicos;
     }
 }
-function allCanastas(todoData,IdUser) {
-  if (todoData) {
+function allCanastas(IdUser) {
+  //if (todoData) {
     const apartados = getItemStorage({
       typeOfStorage: localStorage,
       item: 'storesDataRef',
@@ -76,36 +76,29 @@ function allCanastas(todoData,IdUser) {
      let ids = caids.split(',');
      let idUnicos = arrayUnicos(ids);
       return idUnicos;
-  }
+  //}
 }
+
 
 function SelectTitulosCategorias(local, idUser,idCategoria) {
     const apartados = getItemStorage({
         typeOfStorage: localStorage,
         item: `${local}`,
     });
+    let category=[]
     // eslint-disable-next-line array-callback-return
-    const filterB = apartados.filter((item) => {
-        if (item.IdCategorias === idCategoria) {
-            return item;
-        }
-    });    // eslint-disable-next-line array-callback-return
-    const filterC = filterB.filter((item3) => {
-        if (item3.idUser === idUser) {
-            return item3;
-        }
-    });
-    const titulos = [];
-    const options = [];
-    // eslint-disable-next-line array-callback-return
-    filterC?.map((record, index) => {
-        titulos.push(record.value);
-    });
-    // eslint-disable-next-line array-callback-return
-    arrayUnicos(titulos)?.map((record, index) => {
-        options.push({ value: `${record}` });
-    });
-    return options;
+    Object.keys(apartados)?.map((key) => {
+      if (apartados[key]?.IdCategorias === `${idCategoria}`)
+        category.push({
+          id: apartados[key]?.id,
+          IdCategorias: apartados[key]?.IdCategorias,
+          idUser: apartados[key]?.idUser,
+          rowid: apartados[key]?.rowid,
+          value: apartados[key]?.value,
+          estado: apartados[key]?.estado,
+        })
+       });
+    return category;
 }
 
 function getHora(launchDate) {

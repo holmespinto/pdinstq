@@ -150,7 +150,7 @@ const Table = (props: TableProps): React$Element<React$FragmentType> => {
     );
 
     let rows = pagination ? dataTable.page : dataTable.rows;
-    console.log('😊😊 ❤️ ',rows)
+    //console.log('😊😊 ❤️ ',rows)
     return (
         <>
             {isSearchable && (

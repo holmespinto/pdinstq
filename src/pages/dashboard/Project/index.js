@@ -3,7 +3,8 @@
 import React,{ useState,useEffect } from 'react';
 import { Row, Col } from 'react-bootstrap';
 import AddEditReferencia from '../components/AddEditReferencia';
-import {CATEGORIAS_ITEMS} from './menu'
+
+//import {CATEGORIAS_ITEMS} from './menu'
 // components
 // eslint-disable-next-line import/first
 import PageTitle from '../../../components/PageTitle';
@@ -38,28 +39,26 @@ const [categorias, setCategorias] = useState([]);
 /*
  * event data
  */
-
 const [eventData, setEventData] = useState({});
 const [listData, setListData] = useState({});
-
+const [referencias, setReferencias] = useState({});
+const [idcategoria, setIdCategoria] = useState(0);
 /*
 calendar events
 */
 // on date click
 const onDateClick = (arg) => {
-   // console.log('onDateClick',arg)
-    //setDateInfo(arg);
     onOpenModal();
     setShowLista(false);
     setIsEditable(false);
     setEventData(arg);
-    //setListData(arg);
+
 };
 const onListaClick = (arg) => {
     setShow(false);
-    //console.log('onDateClick',arg)
     onOpenModalLista();
     setListData(arg);
+    setIdCategoria(arg[0]?.IdCategorias)
 };
 
 /*
@@ -100,8 +99,16 @@ useEffect(() => {
       }
   });
 }, []);
+useEffect(() => {
+  const url =  `${environment.baseURL}accion=instreferencias&opcion=consultar`;
+  const syllab = api.getDatos(`${url}`);
+  syllab.then(function (resp) {
+      if (resp) {
+          setReferencias(resp);
+      }
+  });
+}, []);
 
-console.log('instcategorias',categorias)
 return (
         <React.Fragment>
             <PageTitle
@@ -114,7 +121,6 @@ return (
             <Row>
             {categorias?.map((p, index) => (
             <Col xxl={3} lg={6} key={index}>
-                  <span >{p?.IdCategorias}</span>
                     <TarjetasReferencias
                         icon={p?.inventario>p.reservado ? 'bg-success rounded-circle text-white w-27 ms-1 p-1' : 'bg-danger rounded-circle text-white w-27 ms-1 p-1'}
                         description="Number of Customers"
@@ -153,8 +159,10 @@ return (
                 <ListaReferencias
                 isOpenlist={showlist}
                 onClose={onCloseModalList}
+                referencias={referencias}
                 listData={listData}
                 idUser={autor}
+                IdCategorias={idcategoria}
                 />
             ) : null}
               </React.Fragment>

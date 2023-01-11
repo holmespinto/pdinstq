@@ -1,18 +1,31 @@
 
 // @flow
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import { Card, Collapse } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import classNames from 'classnames';
 import ListaCanastasTable from './ListaCanastasTable';
+import { environment } from '../../../environments/environments';
+import { APICore } from '../../../helpers/api/apiCore';
+const api = new APICore();
 
-const ListaCanastasAdd = ({itemid,item,items,itemscanasta,idUser}) => {
+const ListaCanastasAdd = ({itemid,item,idUser}) => {
   const [open, setOpen] = useState(false);
+const [canastas, setCanastas] = useState([]);
 
   const toggle = () => {
       setOpen((prevState) => !prevState);
   };
 
+  useEffect(() => {
+    const url =  `${environment.baseURL}accion=instrumentos&opcion=consultar&tipo=2&idReferencia=${itemid-1}`;
+    const syllab = api.getDatos(`${url}`);
+    syllab.then(function (resp) {
+        if (resp) {
+            setCanastas(resp);
+        }
+    });
+  }, [itemid]);
   return (
       <>
           <Card className="mb-0">
@@ -33,9 +46,9 @@ const ListaCanastasAdd = ({itemid,item,items,itemscanasta,idUser}) => {
                   <div>
                       <Card.Body>
                       <ListaCanastasTable
-                      data={items}
+                      data={canastas}
                       itemid={itemid}
-                      itemscanasta={itemscanasta}
+                      itemscanasta={[]}
                       idUser={idUser}/>
                       </Card.Body>
                   </div>

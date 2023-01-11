@@ -2,7 +2,6 @@
 //import React,{ useEffect,useState } from 'react';
 
 const Count = (tableProps)  => {
-
     return (
         <>
                     <input

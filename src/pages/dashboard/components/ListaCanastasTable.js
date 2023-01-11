@@ -20,7 +20,7 @@ const ListaCanastasTable = (props) => {
 }, [props.categories]);
 */
  // const totalCan = getnumbercategorias(props.IdCategorias, props.idUser)
- console.log('props.data',props.data)
+ //console.log('props.data',props.data)
   return (
     <>
       <Card>
@@ -44,7 +44,7 @@ const ListaCanastasTable = (props) => {
                       <>
                         <th scope="row">{record.id}</th>
                         <td>{record.title}</td>
-                        <td>{record.cantidad}</td>
+                        <td>{record.inventario}</td>
                       </>
                     </tr>
                   );

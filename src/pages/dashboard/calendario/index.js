@@ -4,7 +4,8 @@ import { Row, Col, Card } from 'react-bootstrap';
 import '@fullcalendar/react';
 import { Draggable } from '@fullcalendar/interaction';
 import classNames from 'classnames';
-
+import { environment } from '../../../environments/environments';
+import Swal from 'sweetalert2';
 // components
 import PageTitle from '../../../components/PageTitle';
 import { setItemStorage,getItemStorage } from '../components/itemStorage.ts';
@@ -16,7 +17,8 @@ import {getHora} from './functions';
 // dummy data
 import { defaultEvents, docentes } from './data';
 import { ESTADOS } from '../Project/menu';
-
+import { APICore } from '../../../helpers/api/apiCore';
+const api = new APICore();
 const SidePanel = () => {
 
     return (
@@ -78,7 +80,7 @@ const CalendarApp = (state: CalendarAppState): React$Element<React$FragmentType>
     /*
      * event data
      */
-    const [events, setEvents] = useState([...defaultEvents]);
+
     const [eventData, setEventData] = useState({});
     const [dateInfo, setDateInfo] = useState({});
     const [categoriaList, setCategoriaList] = useState([]);
@@ -89,7 +91,8 @@ const CalendarApp = (state: CalendarAppState): React$Element<React$FragmentType>
             text: '',
         },
     ]);
-
+    const [reuniones, setReuniones] = useState([]);
+    const [events, setEvents] = useState([...defaultEvents]);
     useEffect(() => {
         // create dragable events
         let draggableEl = document.getElementById('external-events');
@@ -197,10 +200,24 @@ const CalendarApp = (state: CalendarAppState): React$Element<React$FragmentType>
             titleCategoria: categorias.join(','),
             asignar: data.asignar,
             estado:data.estado,
-            idUser:users.id
+            idUser:users.id,
+            IdCategorias:idCategoria
         };
         modifiedEvents.push(event);
         setEvents(modifiedEvents);
+        const datosfiles =event
+        const queryDatos = datosfiles
+        ? Object.keys(datosfiles)
+              .map((key) => key + '=' + datosfiles[key])
+              .join('&')
+        : '';
+        const url = `${environment.baseURL}accion=calendario&opcion=guardar&${queryDatos}`;
+        const respuesta = api.getDatos(`${url}`);
+        respuesta.then(function (resp) {
+            if (resp) {
+                Swal.fire('' + resp[0].menssage + '');
+            }
+        });
       /*
         const categ = [];
         for (let i = 0; i < idscategorias.length; i++) {
@@ -273,6 +290,39 @@ const CalendarApp = (state: CalendarAppState): React$Element<React$FragmentType>
         setListaDocente([users])
       }
     }, [users]);
+
+    useEffect(() => {
+      const url = `${environment.baseURL}accion=calendario&opcion=consultar`;
+      const calend = api.getDatos(`${url}`);
+      calend.then(function (resp) {
+          if (resp) {
+            setEvents(resp)
+          }
+      });
+    }, []);
+
+    useEffect(() => {
+      let category=[]
+      // eslint-disable-next-line array-callback-return
+      Object.keys(events)?.map((key) => {
+        const guardados={
+          id: Number(events[key]?.id),
+          title: events[key]?.title,
+          start:new Date(events[key]?.start),
+          end: new Date(events[key]?.end),
+          className:events[key]?.className,
+          idCategoria: events[key]?.idCategoria,
+          titleCategoria: events[key]?.titleCategoria,
+          asignar:events[key]?.asignar,
+          estado:events[key]?.estado,
+          idUser:events[key]?.idUser,
+      }
+        category.push(guardados)
+      })
+        setReuniones(category)
+    }, [events]);
+
+    console.log('events',events);
     return (
         <>
             <PageTitle
@@ -299,7 +349,7 @@ const CalendarApp = (state: CalendarAppState): React$Element<React$FragmentType>
                                         onDateClick={onDateClick}
                                         onEventClick={onEventClick}
                                         onDrop={onDrop}
-                                        events={events}
+                                        events={reuniones}
                                     />
                                 </Col>
                             </Row>

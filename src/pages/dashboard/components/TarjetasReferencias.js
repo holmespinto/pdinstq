@@ -84,7 +84,6 @@ const TarjetasReferencias = (props: TarjetasReferenciasProps): React$Element<any
                         <span className="text-nowrap">{props.trend.time}</span>
                     </p>
                 )}
-
                 <Col className="text-end">
                     {total > 0 ? (
                         <Link

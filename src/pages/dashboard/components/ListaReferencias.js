@@ -1,23 +1,28 @@
 /* eslint-disable react/style-prop-object */
 // @flow
-import React, { useState, useEffect } from 'react';
+import React, { useState,useEffect } from 'react';
 import { Modal, Row, Col} from 'react-bootstrap';
 import { setItemStorage, getItemStorage } from './itemStorage.ts';
 
 // components
 import TabPaneCanastas from './TabPaneCanastas';
 import TableItems from './TableItems';
+import { environment } from '../../../environments/environments';
+import { APICore } from '../../../helpers/api/apiCore';
+const api = new APICore();
 
-const ListaReferencias = ({ isOpenlist, onClose, listData, idUser }) => {
+const ListaReferencias = ({ isOpenlist, onClose, listData, idUser,referencias,IdCategorias }) => {
     // event state
 
-    //const [idRef, setidRef] = React.useState(0);
-    const [list] = useState(listData);
+    const [idRef, setidRef] = React.useState(0);
+    const [list] = useState(listData[0]);
     //console.log('listData',list.canastas[0][0].items)
     //const [data, setDatos] = useState([]);
     const [categories, setCategories] = useState([]);
+    const [canastas, setCanastas] = useState([]);
 
     const onDateValueCategories = (e) => {
+      console.log('onDateValueCategories',e)
         const modifiedEvents = [];
         modifiedEvents.push({
             id: modifiedEvents.length + 1,
@@ -80,9 +85,9 @@ const ListaReferencias = ({ isOpenlist, onClose, listData, idUser }) => {
         const saveReferencia = [...apartadosReferencia];
         saveReferencia.push({
             id: saveReferencia.length + 1,
-            value: arg + '.-' + argB[arg].title,
+            value: arg + '.-' + argB[arg-1].title,
             rowid: arg,
-            IdCategorias: 1,
+            IdCategorias: IdCategorias,
             idUser: idUser,
             estado: 'add',
         });
@@ -92,7 +97,7 @@ const ListaReferencias = ({ isOpenlist, onClose, listData, idUser }) => {
             typeOfStorage: localStorage,
         });
 
-       // setidRef(arg);
+        setidRef(arg);
 
         //DESDE AQUI SE PUEDE ACTUALIZAR LALISTA DE REFERENCIAS SELECCIONADAS
 
@@ -105,35 +110,46 @@ const ListaReferencias = ({ isOpenlist, onClose, listData, idUser }) => {
     }, [idRef, list]);
 */
 
+useEffect(() => {
+  const url =  `${environment.baseURL}accion=instrumentos&opcion=consultar&tipo=2&idReferencia=${idRef}`;
+  const syllab = api.getDatos(`${url}`);
+  syllab.then(function (resp) {
+      if (resp) {
+          setCanastas(resp);
+      }
+  });
+}, [idRef]);
+
     return (
     <Modal show={isOpenlist} onHide={onClose} backdrop="static" keyboard={false} size={'xl'}>
       <Modal.Header className="pb-2 px-4 border-bottom-0" closeButton>
         <Modal.Title id="modal-title">
-          <h5> {list?.title} </h5>
+          <h5> {'list?.title'} </h5>
         </Modal.Title>
       </Modal.Header>
       <Modal.Body className="px-4 pb-4 pt-0 mx-auto">
         <Row style={{ width: '50rem' }}>
           <Col sm={12}>
-            {list?.IdCategorias === 1 ? (
-            <TabPaneCanastas
-            data={list}
-            categories={categories}
-            onDateValueCategories={onDateValueCategories}
-            onDateReferencias={onDateReferencias}
-            IdCategorias={list?.IdCategorias}
-            idUser={idUser}
-            title={listData?.title}
-            list={list}
-            />
+
+            {Number(IdCategorias) === 1 ? (
+              <TabPaneCanastas
+                  data={canastas}
+                  categories={categories}
+                  referencias={referencias}
+                  onDateValueCategories={onDateValueCategories}
+                  onDateReferencias={onDateReferencias}
+                  IdCategorias={IdCategorias}
+                  idUser={idUser}
+                  title={listData?.title}
+                  list={list} />
             ) : (
               <TableItems
-                data={list}
-                categories={categories}
+                data={listData}
+                categories={listData}
                 onDateValueCategories={onDateValueCategories}
-                IdCategorias={list?.IdCategorias}
+                IdCategorias={IdCategorias}
                 idUser={idUser}
-                title={listData?.title}
+                title={listData[0]?.children?.title}
               />
             )}
           </Col>

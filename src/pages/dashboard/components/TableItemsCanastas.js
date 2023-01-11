@@ -8,7 +8,7 @@ import 'nouislider/distribute/nouislider.css';
 import Count from './Count';
 import {getpedidos} from './filter';
 import DeleteItem from '../Project/DeleteItems'
-import { getnumbercategorias } from '../components/filter';
+import { getnumbercategorias } from './filter';
 
 const TableItems = (props) => {
   const [descuento,setdescuento] = useState({idrow:0,descuento:0});

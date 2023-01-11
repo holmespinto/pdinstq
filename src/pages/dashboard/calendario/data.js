@@ -1,52 +1,30 @@
 const defaultEvents = [
-    {
-        id: 1,
-        title: 'Interview - Backend Engineer',
-        start: new Date(),
-        end: new Date().setHours(new Date(Number(new Date().getHours() + 2))),
-        className: 'bg-success',
-        idCategoria: '',
-        titleCategoria: '',
-        asignar:1,
-        estado:1,
-        idUser:1
-    },
-    {
-        id: 2,
-        title: 'Phone Screen - Frontend Engineer',
-        start: new Date(),
-        end: new Date().setHours(new Date(Number(new Date().getHours() + 2))),
-        className: 'bg-info',
-        idCategoria: '',
-        titleCategoria: '',
-        asignar:2,
-        estado:3,
-        idUser:1
-    },
-    {
-        id: 3,
-        title: 'Meeting with John Deo',
-        start:  new Date(),
-        end: new Date().setHours(new Date(Number(new Date().getHours() + 2))),
-        className: 'bg-warning',
-        idCategoria: '',
-        titleCategoria: '',
-        asignar:2,
-        estado:4,
-        idUser:1
-    },
-    {
-        id: 4,
-        title: 'Buy a Theme',
-        start:  new Date(),
-        timeend: new Date().setHours(new Date(Number(new Date().getHours() + 2))),
-        className: 'bg-primary',
-        idCategoria: '',
-        asignar:2,
-        titleCategoria: '',
-        estado:2,
-        idUser:1
-    },
+  {
+      id: 1,
+      title: 'Interview - Backend Engineer',
+      start: new Date(),
+      className: 'bg-success',
+  },
+  {
+      id: 2,
+      title: 'Phone Screen - Frontend Engineer',
+      start: new Date().setDate(new Date().getDate() + 2),
+      className: 'bg-info',
+  },
+  {
+      id: 3,
+      title: 'Meeting with John Deo',
+      start: new Date().setDate(new Date().getDate() + 2),
+      end: new Date().setDate(new Date().getDate() + 4),
+      className: 'bg-warning',
+  },
+  {
+      id: 4,
+      title: 'Buy a Theme',
+      start: new Date().setDate(new Date().getDate() + 4),
+      end: new Date().setDate(new Date().getDate() + 5),
+      className: 'bg-primary',
+  },
 ];
 const docentes = [
   {

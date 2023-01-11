@@ -11,6 +11,7 @@ import { allTitles, allIds } from './functions';
 import { ESTADOS } from '../Project/menu';
 import {SelectTitulosCategorias } from '../calendario/functions';
 
+
 type AddEditEventProps = {
     isOpen?: boolean,
     onClose?: () => void,
@@ -54,7 +55,6 @@ const AddEditEvent = ({
     const schemaResolver = yupResolver(
         yup.object().shape({
             title: yup.string().required('Por favor, adjunte las categorias'),
-            className: yup.string().required('Por favor, selecione la categoria'),
             asignar: yup.string().required('Por favor, selecione el Docente'),
             estado: yup.string().required('Por favor, selecione el Estado'),
         })
@@ -94,6 +94,8 @@ const AddEditEvent = ({
         //TITULOS DE LAS CATEGORIAS
         //onAddEvent(data, idscategorias, categorias);
         //reset();
+
+
     };
 
     useEffect(() => {
@@ -117,15 +119,16 @@ const AddEditEvent = ({
         }
 
     }, [idCategoria, idUser]);
+
     useEffect(() => {
         if (categoriaList?.length === 0) {
             const options = SelectTitulosCategorias('storesDataRef', idUser, idCategoria);
-            console.log("categoriaList",options)
+          console.log("categoriaList",options)
             setOpcionesCategorias(options);
         } else {
             setOpcionesCategorias(categoriaList);
         }
-    }, [categoriaList, idUser, idCategoria]);
+       }, [categoriaList, idUser, idCategoria]);
 
     useEffect(() => {
         if(isEditable){
@@ -155,20 +158,6 @@ const AddEditEvent = ({
                 <form noValidate name="chat-form" id="chat-form" onSubmit={handleSubmit(onSubmitEvent)}>
                     <Row>
                         <Col sm={12}>
-                        <FormInput
-                                type="hidden"
-                                label="className"
-                                value={classnamed}
-                                name="className"
-                                id="className"
-                                className="form-control"
-                                placeholder="className"
-                                containerClass={'mb-3'}
-                                register={register}
-                                key="className"
-                                errors={errors}
-                                control={control}
-                            />
                             <FormInput
                                 type="text"
                                 label="Categorias seleccionadas"
