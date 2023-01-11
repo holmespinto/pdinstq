@@ -64,7 +64,7 @@ function getnumbercategorias(IdCategorias, idUser) {
     ArrayObjects.filter((valor, indice) => {
         return filterC.indexOf(valor) === indice;
     });
-    console.log(ArrayObjects)
+    //console.log(ArrayObjects)
     return ArrayObjects?.length? ArrayObjects?.length +1 : 0;
 }
 

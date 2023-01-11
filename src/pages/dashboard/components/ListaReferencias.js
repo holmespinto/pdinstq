@@ -22,7 +22,7 @@ const ListaReferencias = ({ isOpenlist, onClose, listData, idUser,referencias,Id
     const [canastas, setCanastas] = useState([]);
 
     const onDateValueCategories = (e) => {
-      console.log('onDateValueCategories',e)
+     // console.log('onDateValueCategories',e)
         const modifiedEvents = [];
         modifiedEvents.push({
             id: modifiedEvents.length + 1,

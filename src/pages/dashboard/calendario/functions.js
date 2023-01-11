@@ -89,7 +89,8 @@ function SelectTitulosCategorias(local, idUser,idCategoria) {
     // eslint-disable-next-line array-callback-return
     Object.keys(apartados)?.map((key) => {
       if (apartados[key]?.IdCategorias === `${idCategoria}`)
-        category.push({
+        if(apartados[key]?.idUser===idUser)
+      category.push({
           id: apartados[key]?.id,
           IdCategorias: apartados[key]?.IdCategorias,
           idUser: apartados[key]?.idUser,

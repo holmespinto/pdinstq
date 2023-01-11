@@ -87,7 +87,7 @@ const AddEditEvent = ({
      * handle form submission
      */
     const onSubmitEvent = (data) => {
-      console.log(data);
+      //console.log(data);
       isEditable ? onUpdateEvent(data) : onAddEvent(data, idscategorias, categorias);
         //
         //DATOS PARA GUARDAR EN LA BASE DE DATOS ID CATEGORIAS
@@ -123,7 +123,7 @@ const AddEditEvent = ({
     useEffect(() => {
         if (categoriaList?.length === 0) {
             const options = SelectTitulosCategorias('storesDataRef', idUser, idCategoria);
-          console.log("categoriaList",options)
+          //console.log("categoriaList",options)
             setOpcionesCategorias(options);
         } else {
             setOpcionesCategorias(categoriaList);
@@ -259,9 +259,16 @@ const AddEditEvent = ({
                             <Button className="btn btn-light me-1" onClick={onClose}>
                                 Close
                             </Button>
+                            {(idUser===1)?(
                             <Button variant="success" type="submit" className="btn btn-success">
                             {isEditable ? 'Actualizar' : 'Guardar'}
                             </Button>
+                            ):(
+                              isEditable ? ('') :(
+                            <Button variant="success" type="submit" className="btn btn-success">
+                             Guardar
+                            </Button>))
+                            }
                         </Col>
                     </Row>
                 </form>

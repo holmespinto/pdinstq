@@ -17,7 +17,7 @@ const handleEventClick = (item, IdCategoria,idUser) => {
             const apartadosDataRef = item.filter((item) =>
                item.id !== IdCategoria  && item.id !== undefined
             );
-            console.log('apartadosDataRef',apartadosDataRef)
+           // console.log('apartadosDataRef',apartadosDataRef)
 
            localStorage.removeItem('storesDataRef');
             setItemStorage({

@@ -246,18 +246,29 @@ const CalendarApp = (state: CalendarAppState): React$Element<React$FragmentType>
     on update event
     */
     const onUpdateEvent = (data) => {
-        console.log('onUpdate',data)
+
        // eslint-disable-next-line array-callback-return
        const estados = Object.keys(ESTADOS)?.map((key) => {
-        return ESTADOS[key]?.className;
-});
-        const modifiedEvents = [...events];
+          return ESTADOS[key]?.className;
+          });
+        const modifiedEvents = [...reuniones];
+
         const idx = modifiedEvents.findIndex((e) => e['id'] === eventData.id);
-        modifiedEvents[idx]['title'] = data.title;
-        modifiedEvents[idx]['className'] = estados[Number(data.estado-1)];
-        modifiedEvents[idx]['estado'] = data.estado;
-        modifiedEvents[idx]['idCategoria'] = data.idCategoria;
-        modifiedEvents[idx]['asignar'] = data.asignar;
+        modifiedEvents[idx]['className'] = estados[Number(data?.estado-1)];
+        modifiedEvents[idx]['estado'] = data?.estado;
+        modifiedEvents[idx]['asignar'] = data?.asignar;
+        const queryDatos = modifiedEvents
+        ? Object.keys(modifiedEvents[idx])
+              .map((key) => key + '=' + modifiedEvents[idx][key])
+              .join('&')
+        : '';
+        const url = `${environment.baseURL}accion=calendario&opcion=actualizar&${queryDatos}`;
+        const respuesta = api.getDatos(`${url}`);
+        respuesta.then(function (resp) {
+            if (resp) {
+                Swal.fire('' + resp[0].menssage + '');
+            }
+        });
         setEvents(modifiedEvents);
         onCloseModal();
     };
@@ -321,8 +332,6 @@ const CalendarApp = (state: CalendarAppState): React$Element<React$FragmentType>
       })
         setReuniones(category)
     }, [events]);
-
-    console.log('events',events);
     return (
         <>
             <PageTitle
