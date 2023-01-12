@@ -47,19 +47,25 @@ const ActionColumn = ({ row }) => {
         setSignUpModal(!signUpModal);
 
     };
-
     const eliminar = (temas) => {
-
-      const url = `${environment.baseURL}accion=instrumentos&opcion=eliminar&id=${temas}`;
-      const respuesta = api.getDatos(`${url}`);
-      respuesta.then(function (resp) {
-          if (resp) {
-              Swal.fire('' + resp[0].menssage + '');
-          }
-          setTemas([]);
-          //ListaInstrumentos()
-      });
-    };
+      Swal.fire({
+        title: 'Desea eliminar el registro??',
+        showCancelButton: true,
+      }).then((result) => {
+        /* Read more about isConfirmed, isDenied below */
+        if (result.isConfirmed) {
+          const url = `${environment.baseURL}accion=instrumentos&opcion=eliminar&id=${temas}`;
+          const respuesta = api.getDatos(`${url}`);
+          respuesta.then(function (resp) {
+              if (resp) {
+                  Swal.fire('' + resp[0].menssage + '');
+              }
+              setTemas([]);
+              //ListaInstrumentos()
+          });
+        }
+      })
+  };
 
     const actualizar = (event) => {
         const form = event.currentTarget;

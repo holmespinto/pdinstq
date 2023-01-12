@@ -64,7 +64,7 @@ const TarjetasReferencias = (props: TarjetasReferenciasProps): React$Element<any
       });
     }, [props.IdCategorias]);
 
-        //console.log('instrumentos',instrumentos)
+  //console.log('instrumentos',instrumentos)
     return (
         <Card className={classNames('widget-flat', props.bgclassName)}>
             <Card.Body>

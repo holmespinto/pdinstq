@@ -146,6 +146,7 @@ const AddEditReferencia = ({
                                 key="title"
                                 onChange={(e) => {onDateValueChange(Number(e.target.value))}}
                                 >
+                                <option>Selecione el items</option>
                                 {list?.canastas[0]?.map((p, index) => {
                                 return (
                                  <option value={p.id} key={index}>{p.title}</option>

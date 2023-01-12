@@ -246,7 +246,7 @@ const CalendarApp = (state: CalendarAppState): React$Element<React$FragmentType>
     on update event
     */
     const onUpdateEvent = (data) => {
-
+console.log('data',data)
        // eslint-disable-next-line array-callback-return
        const estados = Object.keys(ESTADOS)?.map((key) => {
           return ESTADOS[key]?.className;

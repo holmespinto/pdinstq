@@ -42,7 +42,24 @@ const ActionColumn = ({ row }) => {
         setSignUpModal(!signUpModal);
     };
 
-    const eliminar = () => {};
+    const eliminar = (event) => {
+        Swal.fire({
+          title: 'Desea eliminar el registro??',
+          showCancelButton: true,
+        }).then((result) => {
+          /* Read more about isConfirmed, isDenied below */
+          if (result.isConfirmed) {
+            //console.log('event',event.IdCategorias);
+            const url = `${environment.baseURL}accion=instcategorias&opcion=eliminar&id=${event.IdCategorias}`;
+            const respuesta = api.getDatos(`${url}`);
+            respuesta.then(function (resp) {
+                if (resp) {
+                  Swal.fire('' + resp[0].menssage + '');
+                }
+            });
+          }
+        })
+    };
 
     const actualizar = (event) => {
         const form = event.currentTarget;
@@ -133,7 +150,7 @@ const ActionColumn = ({ row }) => {
                 {' '}
                 <i className="mdi mdi-square-edit-outline"></i>
             </Link>
-            <Link to="#" className="action-icon" onClick={() => eliminar()}>
+            <Link to="#" className="action-icon" onClick={() => eliminar(temas)}>
                 {' '}
                 <i className="mdi mdi-delete"></i>
             </Link>

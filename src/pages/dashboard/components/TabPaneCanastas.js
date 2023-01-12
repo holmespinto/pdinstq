@@ -97,11 +97,12 @@ const [canastasadd, setCanastasAdd] = useState([]);
                                   props?.referencias
                                 );
                               }}>
+                              <option>Selecione el items</option>
                               {props.referencias?.map((p, index) => {
                                 if(p.status==='Active')
                                 return (
                                   <option value={p.id} key={index}>
-                                   {p.status} {p.title}
+                                   {p.title}
                                   </option>
                                 );
                               })}
