@@ -31,7 +31,8 @@ const ActionColumn = ({ row }) => {
     const INIT_TEMAS = {
         id: row.cells[1].value ? row.cells[1].value : row.cells[1].value,
         title: row.cells[2].value ? row.cells[2].value : row.cells[2].value,
-        status: row.cells[3].value ? row.cells[3].value : row.cells[3].value,
+        inventario: row.cells[3].value ? row.cells[3].value : row.cells[3].value,
+        status: row.cells[4].value ? row.cells[4].value : row.cells[4].value,
     };
 
     const [signUpModal, setSignUpModal] = useState(false);
@@ -97,7 +98,20 @@ const ActionColumn = ({ row }) => {
                                 Por favor, digite la referencia.
                             </Form.Control.Feedback>
                         </Form.Group>
-
+                        <Form.Group className="mb-3" controlId="inventario">
+                            <Form.Label>Inventario</Form.Label>
+                            <Form.Control
+                                required
+                                type="number"
+                                name="inventario"
+                                placeholder="Digite la cantidad para la Canasta"
+                                value={temas.inventario}
+                                onChange={(e) => setTemas({ ...temas, inventario: e.target.value })}
+                            />
+                            <Form.Control.Feedback type="invalid">
+                                Por favor, digite la cantidad de inventario.
+                            </Form.Control.Feedback>
+                        </Form.Group>
                         <Form.Group className="mb-3" controlId="status">
                             <Form.Label>Status</Form.Label>
                             <Select
@@ -158,7 +172,16 @@ const columns = [
         accessor: 'title',
         sort: true,
     },
-
+    {
+      Header: 'Inventariadas',
+      accessor: 'inventario',
+      sort: true,
+    },
+    {
+      Header: 'Reservadas',
+      accessor: 'reservado',
+      sort: true,
+    },
     {
         Header: 'Status',
         accessor: 'status',
@@ -240,7 +263,20 @@ const FormActividades = (props) => {
                                     Por favor, digite la Referencias.
                                 </Form.Control.Feedback>
                             </Form.Group>
-
+                            <Form.Group className="mb-3" controlId="inventario">
+                            <Form.Label>Inventario</Form.Label>
+                            <Form.Control
+                                required
+                                type="number"
+                                name="inventario"
+                                placeholder="Digite la cantidad para la Canasta"
+                                value={temas.inventario}
+                                onChange={(e) => setTemas({ ...temas, inventario: e.target.value })}
+                            />
+                            <Form.Control.Feedback type="invalid">
+                                Por favor, digite la cantidad de inventario.
+                            </Form.Control.Feedback>
+                        </Form.Group>
                             <div className="button-list">
                                 <Button type="button" disabled={temas.message ? 'true' : ''} onClick={guardar}>
                                     +

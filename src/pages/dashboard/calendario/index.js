@@ -257,6 +257,7 @@ const CalendarApp = (state: CalendarAppState): React$Element<React$FragmentType>
         modifiedEvents[idx]['className'] = estados[Number(data?.estado-1)];
         modifiedEvents[idx]['estado'] = data?.estado;
         modifiedEvents[idx]['asignar'] = data?.asignar;
+        modifiedEvents[idx]['IdCategorias'] = idCategoria;
         const queryDatos = modifiedEvents
         ? Object.keys(modifiedEvents[idx])
               .map((key) => key + '=' + modifiedEvents[idx][key])

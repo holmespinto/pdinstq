@@ -50,8 +50,6 @@ const [canastasadd, setCanastasAdd] = useState([]);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [props]);
-
-
   return (
     <>
       <Card>
@@ -100,9 +98,10 @@ const [canastasadd, setCanastasAdd] = useState([]);
                                 );
                               }}>
                               {props.referencias?.map((p, index) => {
+                                if(p.status==='Active')
                                 return (
                                   <option value={p.id} key={index}>
-                                    {p.title}
+                                   {p.status} {p.title}
                                   </option>
                                 );
                               })}
