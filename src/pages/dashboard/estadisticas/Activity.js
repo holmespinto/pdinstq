@@ -7,7 +7,7 @@ import SimpleBar from 'simplebar-react';
 import Timeline from '../../../components/Timeline';
 import TimelineItem from '../../../components/TimelineItem';
 
-const Activity = (): React$Element<any> => {
+const Activity = (props) => {
     return (
         <Card>
             <Card.Body>
@@ -27,109 +27,23 @@ const Activity = (): React$Element<any> => {
 
                 <SimpleBar style={{ maxHeight: '419px', width: '100%' }}>
                     <Timeline>
-                        <TimelineItem>
+                    {
+                    props.recientes?.map((p, index) => (
+                        <TimelineItem key={index}>
                             <i className="mdi mdi-upload bg-info-lighten text-info timeline-icon"></i>
                             <div className="timeline-item-info">
                                 <a href="/" className="text-info fw-bold mb-1 d-block">
-                                    You sold an item
+                                {p.elementos}
                                 </a>
-                                <small>Paul Burgess just purchased “Hyper - Admin Dashboard”!</small>
-                                <p className="mb-0 pb-2">
-                                    <small className="text-muted">5 minutes ago</small>
-                                </p>
-                            </div>
-                        </TimelineItem>
+                                <small>{p.estado}</small>
+                                <small> {p.nombres} {p.apellidos}</small>
 
-                        <TimelineItem>
-                            <i className="mdi mdi-airplane bg-primary-lighten text-primary timeline-icon"></i>
-                            <div className="timeline-item-info">
-                                <a href="/" className="text-primary fw-bold mb-1 d-block">
-                                    Product on the Bootstrap Market
-                                </a>
-                                <small>
-                                    Dave Gamache added <span className="fw-bold">Admin Dashboard</span>
-                                </small>
                                 <p className="mb-0 pb-2">
-                                    <small className="text-muted">30 minutes ago</small>
+                                    <small className="text-muted">{p.entrega}</small>
                                 </p>
                             </div>
                         </TimelineItem>
-
-                        <TimelineItem>
-                            <i className="mdi mdi-microphone bg-info-lighten text-info timeline-icon"></i>
-                            <div className="timeline-item-info">
-                                <a href="/" className="text-info fw-bold mb-1 d-block">
-                                    Robert Delaney
-                                </a>
-                                <small>
-                                    Send you message
-                                    <span className="fw-bold">"Are you there?"</span>
-                                </small>
-                                <p className="mb-0 pb-2">
-                                    <small className="text-muted">2 hours ago</small>
-                                </p>
-                            </div>
-                        </TimelineItem>
-
-                        <TimelineItem>
-                            <i className="mdi mdi-upload bg-primary-lighten text-primary timeline-icon"></i>
-                            <div className="timeline-item-info">
-                                <a href="/" className="text-primary fw-bold mb-1 d-block">
-                                    Audrey Tobey
-                                </a>
-                                <small>
-                                    Uploaded a photo <span className="fw-bold">"Error.jpg"</span>{' '}
-                                </small>
-                                <p className="mb-0 pb-2">
-                                    <small className="text-muted">14 hours ago</small>
-                                </p>
-                            </div>
-                        </TimelineItem>
-                        <TimelineItem>
-                            <i className="mdi mdi-airplane bg-primary-lighten text-primary timeline-icon"></i>
-                            <div className="timeline-item-info">
-                                <a href="/" className="text-primary fw-bold mb-1 d-block">
-                                    Product on the Bootstrap Market
-                                </a>
-                                <small>
-                                    Dave Gamache added <span className="fw-bold">Admin Dashboard</span>
-                                </small>
-                                <p className="mb-0 pb-2">
-                                    <small className="text-muted">30 minutes ago</small>
-                                </p>
-                            </div>
-                        </TimelineItem>
-
-                        <TimelineItem>
-                            <i className="mdi mdi-microphone bg-info-lighten text-info timeline-icon"></i>
-                            <div className="timeline-item-info">
-                                <a href="/" className="text-info fw-bold mb-1 d-block">
-                                    Robert Delaney
-                                </a>
-                                <small>
-                                    Send you message
-                                    <span className="fw-bold">"Are you there?"</span>
-                                </small>
-                                <p className="mb-0 pb-2">
-                                    <small className="text-muted">2 hours ago</small>
-                                </p>
-                            </div>
-                        </TimelineItem>
-
-                        <TimelineItem>
-                            <i className="mdi mdi-upload bg-primary-lighten text-primary timeline-icon"></i>
-                            <div className="timeline-item-info">
-                                <a href="/" className="text-primary fw-bold mb-1 d-block">
-                                    Audrey Tobey
-                                </a>
-                                <small>
-                                    Uploaded a photo <span className="fw-bold">"Error.jpg"</span>{' '}
-                                </small>
-                                <p className="mb-0 pb-2">
-                                    <small className="text-muted">14 hours ago</small>
-                                </p>
-                            </div>
-                        </TimelineItem>
+                        ))}
                     </Timeline>
                 </SimpleBar>
             </Card.Body>

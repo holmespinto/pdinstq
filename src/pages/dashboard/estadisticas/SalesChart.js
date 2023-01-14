@@ -3,7 +3,7 @@ import React from 'react';
 import Chart from 'react-apexcharts';
 import { Card, Dropdown } from 'react-bootstrap';
 
-const SalesChart = (): React$Element<any> => {
+const SalesChart = (props)=> {
     const apexDonutOpts = {
         chart: {
             height: 340,
@@ -29,8 +29,8 @@ const SalesChart = (): React$Element<any> => {
         ],
     };
 
-    const apexDonutData = [44, 55, 41, 17];
 
+console.log(props.apexDonutData)
     return (
         <Card>
             <Card.Body>
@@ -46,32 +46,31 @@ const SalesChart = (): React$Element<any> => {
                     </Dropdown.Menu>
                 </Dropdown>
 
-                <h4 className="header-title">Total Solicidaas</h4>
+                <h4 className="header-title">Estadísticas por Estados</h4>
 
                 <Chart
                     options={apexDonutOpts}
-                    series={apexDonutData}
+                    series={props?.apexDonutData}
                     type="donut"
                     height={236}
                     className="apex-charts mb-4 mt-4"
                 />
-
                 <div className="chart-widget-list">
                     <p>
-                        <i className="mdi mdi-square text-primary"></i> Direct
-                        <span className="float-end">$300.56</span>
+                        <i className="mdi mdi-square text-primary"></i> Reservado
+                        <span className="float-end">{props.apexDonutData[0]}</span>
                     </p>
                     <p>
-                        <i className="mdi mdi-square text-danger"></i> Affilliate
-                        <span className="float-end">$135.18</span>
+                        <i className="mdi mdi-square text-danger"></i>Deshabilitado
+                        <span className="float-end">{props.apexDonutData[1]}</span>
                     </p>
                     <p>
-                        <i className="mdi mdi-square text-success"></i> Sponsored
-                        <span className="float-end">$48.96</span>
+                        <i className="mdi mdi-square text-success"></i>Devuelto
+                        <span className="float-end">{props.apexDonutData[2]}</span>
                     </p>
                     <p className="mb-0">
-                        <i className="mdi mdi-square text-warning"></i> E-mail
-                        <span className="float-end">$154.02</span>
+                        <i className="mdi mdi-square text-warning"></i>Entregado
+                        <span className="float-end">{props.apexDonutData[3]}</span>
                     </p>
                 </div>
             </Card.Body>

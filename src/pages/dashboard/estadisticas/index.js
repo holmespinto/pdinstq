@@ -14,6 +14,7 @@ const api = new APICore();
 const Estadisticas = () => {
 
 const [totalinstrumentos, setTotalInstrumentos] = useState([]);
+const [apexDonutData, setEstadisticasEstados] = useState([1,1,1,1]);
 
   useEffect(() => {
     const url = `${environment.baseURL}accion=estadisticas&opcion=numeroinstrumentos`
@@ -30,11 +31,29 @@ const [totalinstrumentos, setTotalInstrumentos] = useState([]);
           totaldocente:resp[5]?.totaldocente,
           totalasignados:resp[6]?.totalasignados,
           proyecionmeses:resp[7].length>0?resp[7]:[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+          solicateg:resp[8],
+          soliestados:resp[9],
+          recientes:resp[10],
         });
       }
     });
   }, []);
-console.log(totalinstrumentos)
+
+  useEffect(() => {
+
+    if(totalinstrumentos.soliestados?.length>0){
+      setEstadisticasEstados([
+        Number(totalinstrumentos.soliestados[0]?.total),
+        Number(totalinstrumentos.soliestados[1]?.total),
+        Number(totalinstrumentos.soliestados[2]?.total),
+        Number(totalinstrumentos.soliestados[3]?.total)
+      ])
+
+    }
+
+
+  }, [totalinstrumentos]);
+  console.log(totalinstrumentos)
     return (
         <>
             <Row>
@@ -66,8 +85,6 @@ console.log(totalinstrumentos)
                     totalprestadosmes={totalinstrumentos?.totalprestadosmes}
                     totaldocente={totalinstrumentos?.totaldocente}
                     totalasignados={totalinstrumentos?.totalasignados}
-
-
                    />
                 </Col>
 
@@ -79,13 +96,13 @@ console.log(totalinstrumentos)
             </Row>
             <Row>
                 <Col xl={{ span: 6, order: 1 }} lg={{ order: 2 }}>
-                    <Products />
+                    <Products listascategorias={totalinstrumentos?.solicateg}/>
                 </Col>
                 <Col xl={3} lg={{ span: 6, order: 1 }}>
-                    <SalesChart />
+                    <SalesChart apexDonutData={apexDonutData} />
                 </Col>
                 <Col xl={3} lg={{ span: 6, order: 1 }}>
-                    <Activity />
+                    <Activity recientes={totalinstrumentos?.recientes}/>
                 </Col>
             </Row>
         </>

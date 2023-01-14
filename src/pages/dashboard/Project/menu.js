@@ -932,7 +932,7 @@ const CATEGORIAS_ITEMS = [
             id: 4,
             textClass: 'text-danger',
             className: 'bg-danger',
-            title: 'Desabilitado',
+            title: 'Deshabilitado',
             permisosDocente:0,
             permisosAdmin:1,
         },
