@@ -20,7 +20,8 @@ const ProjectDashboardPage = (): React$Element<React$FragmentType> => {
      */
 const [show, setShow] = useState(false);
 const [showlist, setShowLista] = useState(false);
-const [autor, setAutor] = useState(0);
+const [autor, setAutor] = useState();
+const [role, setRol] = useState();
 const onCloseModalList = () => {
   setShowLista(false);
     setEventData({});
@@ -83,18 +84,22 @@ const onRemoveEvent = () => {
 };
 
 useEffect(() => {
+ if(categorias.length > 0){
   const user = getItemStorage({
     typeOfStorage: localStorage,
     item: 'user',
   })
   setAutor(user.id);
-}, []);
+  setRol(user.role);
+
+  }
+}, [categorias]);
 
 useEffect(() => {
   const url = `${environment.baseURL}accion=instcategorias&opcion=consultar`
   const datos = api.getDatos(`${url}`);
   datos.then(function (resp) {
-      if (resp.length>0) {
+      if (resp?.length>0) {
           setCategorias(resp);
       }
   });
@@ -108,6 +113,7 @@ useEffect(() => {
       }
   });
 }, []);
+console.log('autor',autor)
 return (
         <React.Fragment>
             <PageTitle
@@ -137,6 +143,7 @@ return (
                             time: p?.description,
                         }}
                         idUser={autor}
+                        role={role}
                         ></TarjetasReferencias>
                 </Col>
                 ))}

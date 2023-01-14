@@ -25,7 +25,7 @@ const SelectReferencias = (props) => {
     }
     const syllab = api.getDatos(`${url}`);
     syllab.then(function (resp) {
-        if (resp.length>0) {
+        if (resp?.length>0) {
           cargarCategorias(resp)
         }
     });

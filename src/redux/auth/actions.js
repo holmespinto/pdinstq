@@ -13,10 +13,10 @@ export const authApiResponseError = (actionType: string, error: string): AuthAct
     type: AuthActionTypes.API_RESPONSE_ERROR,
     payload: { actionType, error },
 });
-
+//, id: number, usuario: string, usuario: string ,id,usuario,clave
 export const loginUser = (username: string, password: string): AuthAction => ({
     type: AuthActionTypes.LOGIN_USER,
-    payload: { username, password },
+    payload: { username, password},
 });
 
 export const logoutUser = (): AuthAction => ({

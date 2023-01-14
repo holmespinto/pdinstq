@@ -56,7 +56,32 @@ const getUserFromSession = () => {
     const user = sessionStorage.getItem(AUTH_SESSION_KEY);
     return user ? (typeof user == 'object' ? user : JSON.parse(user)) : null;
 };
+const getApiUsuario = (url) => {
+  const fetchUser = async () => {
+      try {
+          const res = await fetch(url);
+          const datos = await res.json();
+          return JSON.stringify(datos);
+      } catch (error) {
+          console.log(error);
+      }
+  };
+  return fetchUser();
+};
 class APICore {
+
+generateToken = (password,username,id) => {
+  var jwt = require('jsonwebtoken');
+    let token = '';
+    var u = {
+        username:username,
+        id: id,
+    };
+    token = jwt.sign(u, password, {
+        expiresIn: 60 * 60 * 24, // expires in 24 hours
+    });
+    return token;
+}
     /**
      * Fetches data from given url
      */
@@ -219,6 +244,9 @@ class APICore {
       };
       return getconsultar();
   };
+  setUsuarioslocal = (url) => {
+    return getApiUsuario(url);
+};
 }
 
 /*

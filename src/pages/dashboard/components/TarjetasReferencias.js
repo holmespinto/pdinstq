@@ -113,7 +113,7 @@ const TarjetasReferencias = (props: TarjetasReferenciasProps): React$Element<any
                             <i className="dripicons-blog" onClick={() => handleListaClick(instrumentos)}></i>
                         </OverlayTrigger>
                     </Link>
-                     {props.idUser===1 && (
+                     {props.role==='Admin' && (
                     <Link to={`/dashboard/configuracion/admin?p=${props.IdCategorias}`} className="btn btn-link btn-lg text-muted shadow-none">
                         <OverlayTrigger
                             placement="top"

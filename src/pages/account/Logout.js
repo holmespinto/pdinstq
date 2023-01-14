@@ -36,16 +36,17 @@ const Logout = (): React$Element<any> | React$Element<React$FragmentType> => {
     const dispatch = useDispatch();
 
     useEffect(() => {
+        //localStorage.removeItem('user');
         dispatch(logoutUser());
+
     }, [dispatch]);
 
     return (
         <>
             <AccountLayout bottomLinks={<BottomLink />}>
                 <div className="text-center w-75 m-auto">
-                    <h4 className="text-dark-50 text-center mt-0 fw-bold">{t('See You Again !')}</h4>
-                    <p className="text-muted mb-4">{t('You are now successfully sign out.')}</p>
-
+                    <h4 className="text-dark-50 text-center mt-0 fw-bold">{t('Ingresa nuevamente !')}</h4>
+                    <p className="text-muted mb-4">{t('Usted cerro la sessión.')}</p>
                     <div className="logout-icon m-auto">
                         <img src={logoutIcon} alt="" />
                     </div>

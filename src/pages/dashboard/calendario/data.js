@@ -39,7 +39,7 @@ const docentes = [
   },
   {
       id: 2,
-      name: 'Maria del Carme Daza',
+      name: 'Docente',
       phone: '(917) 2590629',
       email: 'vtaber1@ucoz.com',
       location: 'Venezuela',

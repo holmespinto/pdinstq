@@ -9,6 +9,7 @@ import PageTitle from '../../../components/PageTitle';
 import ListCategorias from '../categorias/ListCategorias';
 import ListReferencias from '../referencias/ListReferencias';
 import SelectReferencias from '../components/SelectReferencias';
+import ListaUsuarios from '../../account/ListaUsuarios';
 const tabContents = [
   {
     id: '1',
@@ -33,6 +34,12 @@ const tabContents = [
     title: 'Registrar Instrumentos x Referencias',
     icon: 'mdi mdi-account-circle',
     text: 'En esta session puedes Registrar Instrumentos por Referencias de la CANASTA.',
+  },
+  {
+    id: '5',
+    title: 'Administrador de Usuarios',
+    icon: 'mdi mdi-account-circle',
+    text: 'En esta sessión puedes asignar Roles, Crear Usuarios.',
   },
 ];
 
@@ -91,6 +98,10 @@ const ConfiguracionDashboardPage = () => {
                                   );
                                 case 2:
                                   return <ListReferencias />;
+                                case 4:
+                                  return (
+                                    <ListaUsuarios />
+                                  );
                                 default:
                                   return (
                                     <SelectReferencias
