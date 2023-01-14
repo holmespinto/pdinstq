@@ -39,7 +39,8 @@ const AddEditEvent = ({
     idUser,
     categoriaList,
     getClassName,
-    classnamed
+    classnamed,
+    role
 }: AddEditEventProps): React$Element<any> => {
     // event state
     const [event] = useState(eventData);
@@ -100,7 +101,7 @@ const AddEditEvent = ({
 
     useEffect(() => {
 
-        if(idUser===1){
+        if(role==='Admin'){
           // eslint-disable-next-line array-callback-return
           const filterOpciones = ESTADOS.filter(item => {
             if (item.permisosAdmin === 1) {
@@ -118,7 +119,7 @@ const AddEditEvent = ({
           setOpcionesEstados(filterOpciones);
         }
 
-    }, [idCategoria, idUser]);
+    }, [idCategoria, role]);
 
     useEffect(() => {
         if (categoriaList?.length === 0) {
@@ -215,7 +216,7 @@ const AddEditEvent = ({
                                 {docentes?.map((p, index) => {
                                     return (
                                         <option value={p.id} key={index}>
-                                            {p.name}
+                                            {p.nombres} {p.apellidos}
                                         </option>
                                     );
                                 })}
@@ -259,7 +260,7 @@ const AddEditEvent = ({
                             <Button className="btn btn-light me-1" onClick={onClose}>
                                 Close
                             </Button>
-                            {(idUser===1)?(
+                            {(role==='Admin')?(
                             <Button variant="success" type="submit" className="btn btn-success">
                             {isEditable ? 'Actualizar' : 'Guardar'}
                             </Button>

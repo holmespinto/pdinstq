@@ -246,7 +246,7 @@ const CalendarApp = (state: CalendarAppState): React$Element<React$FragmentType>
     on update event
     */
     const onUpdateEvent = (data) => {
-console.log('data',data)
+
        // eslint-disable-next-line array-callback-return
        const estados = Object.keys(ESTADOS)?.map((key) => {
           return ESTADOS[key]?.className;
@@ -296,8 +296,15 @@ console.log('data',data)
 
     useEffect(() => {
       setAutor(users.id);
-      if(users.id===1){
-        setListaDocente(docentes)
+      if(users.role==='Admin'){
+          const url = `${environment.baseURL}accion=usuarios&opcion=consultar`;
+          const ususarios = api.getDatos(`${url}`);
+          ususarios.then(function (resp) {
+              if (resp) {
+                 //console.log(resp);
+                setListaDocente(resp)
+              }
+          });
       }else{
         setListaDocente([users])
       }
@@ -383,6 +390,7 @@ console.log('data',data)
                     docentes={listdocentes}
                     idCategoria={idCategoria}
                     idUser={autor}
+                    role={users.role}
                     categoriaList={categoriaList}
                     getClassName={getClassName}
                     classnamed={classnames}
