@@ -9,6 +9,7 @@ import classnames from 'classnames';
 // eslint-disable-next-line import/first
 import Estadisticas from '../estadisticas/';
 import PageTitle from '../../../components/PageTitle';
+import ListaPrestamos from '../calendario/ListaPrestamos';
 import TarjetasReferencias from '../components/TarjetasReferencias';
 import ListaReferencias from '../components/ListaReferencias';
 import { getItemStorage } from '../components/itemStorage';
@@ -124,8 +125,15 @@ const ProjectDashboardPage = () => {
     {
       id: '2',
       title: 'Estadisticas',
-      icon: 'mdi mdi-account-circle',
+      icon: 'mdi mdi-chart-bar',
       text: 'En esta session puedes consultar las estadisticas de los préstamos de Instrumentos',
+    }
+    ,
+    {
+      id: '3',
+      title: 'Reportes',
+      icon: 'mdi mdi-calendar-search',
+      text: 'En esta session puedes consultar los reportes del préstamos, devoluciones y estados de las categorias',
     }
   ];
   return (
@@ -193,10 +201,10 @@ const ProjectDashboardPage = () => {
                                 </Row>);
                               case 1:
                                 return (
-                                  <Estadisticas/>
+                                  <Estadisticas />
                                 );
                               case 2:
-                                return ('2');
+                                return (<ListaPrestamos/>);
                               default:
                                 return (
                                   'defould'

@@ -188,6 +188,13 @@ switch($_GET['accion']) {
 					 $getRes = getRequest($url,$post,$_GET);
 					echo $getRes;
 					 
+		break;
+		case "estadisticas":
+		            $post = array('var_login' =>'holmespinto@unicesar.edu.co','password' =>'holmespinto@unicesar.edu.co');
+                    $url = "https://api.compucel.co/ecrire/?exec=router"; 		    
+					 $getRes = getRequest($url,$post,$_GET);
+					echo $getRes;
+					 
 		break;			
 }
 

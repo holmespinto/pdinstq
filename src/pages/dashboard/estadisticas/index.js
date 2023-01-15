@@ -69,7 +69,7 @@ const [apexDonutData, setEstadisticasEstados] = useState([1,1,1,1]);
                                 </button>
                             </form>
                         </div>
-                        <h4 className="page-title">Estadística y Reportes</h4>
+                        <h4 className="page-title">Estadística</h4>
                     </div>
                 </Col>
             </Row>

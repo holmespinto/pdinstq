@@ -77,7 +77,11 @@ switch($_POST['accion']) {
 		break;	
 		case "usuarios":
             include_spip('exec/model/instrumentacion/usuarios/usuarios');		    
-		break;			
+		break;
+		case "estadisticas":
+            include_spip('exec/model/instrumentacion/estadisticas/estadisticas');		    
+		break;		
+		
 }
 
  
@@ -87,7 +91,6 @@ class ControllerUsuarios{
 
 	function usuarios(){
 	include_spip('exec/model/login/usuarios');
-		 
 	
 	}
 }
