@@ -6,6 +6,7 @@ import interactionPlugin from '@fullcalendar/interaction';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import listPlugin from '@fullcalendar/list';
 import BootstrapTheme from '@fullcalendar/bootstrap';
+import esLocale from '@fullcalendar/core/locales/es';
 
 type CalendarProps = {
     onDateClick: (value: any) => void,
@@ -34,18 +35,19 @@ const Calendar = ({ onDateClick, onEventClick, onDrop, events }: CalendarProps):
             {/* full calendar control */}
             <div id="calendar">
                 <FullCalendar
+                    locale={esLocale}
                     initialView="timeGridDay"
                     plugins={[dayGridPlugin, interactionPlugin, timeGridPlugin, listPlugin, BootstrapTheme]}
                     handleWindowResize={true}
                     themeSystem="bootstrap"
                     buttonText={{
-                        today: 'Para Hoy',
+                        today: 'Hoy',
                         month: 'Mes',
                         week: 'Semana',
                         day: 'Dia',
                         list: 'Lista',
-                        prev: 'Prev',
-                        next: 'Next',
+                        prev: 'Previo',
+                        next: 'Siguiente',
                     }}
                     headerToolbar={{
                         left: 'prev,next today',
