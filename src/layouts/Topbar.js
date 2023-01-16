@@ -26,27 +26,17 @@ import * as layoutConstants from '../constants/layout';
 // get the profilemenu
 const ProfileMenus = [
     {
-        label: 'My Account',
+        label: 'Mi Cuenta',
         icon: 'mdi mdi-account-circle',
         redirectTo: '/',
     },
     {
-        label: 'Settings',
-        icon: 'mdi mdi-account-edit',
-        redirectTo: '/',
-    },
-    {
-        label: 'Support',
-        icon: 'mdi mdi-lifebuoy',
-        redirectTo: '/',
-    },
-    {
-        label: 'Lock Screen',
+        label: 'Bloquear Pantalla',
         icon: 'mdi mdi-lock-outline',
         redirectTo: '/account/lock-screen',
     },
     {
-        label: 'Logout',
+        label: 'Salir de la Plataforma',
         icon: 'mdi mdi-logout',
         redirectTo: '/account/logout',
     },
