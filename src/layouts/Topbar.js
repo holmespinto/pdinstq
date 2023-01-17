@@ -10,8 +10,6 @@ import { showRightSidebar } from '../redux/actions';
 // components
 import LanguageDropdown from '../components/LanguageDropdown';
 import ProfileDropdown from '../components/ProfileDropdown';
-//import SearchDropdown from '../components/SearchDropdown';
-//import TopbarSearch from '../components/TopbarSearch';
 import AppsDropdown from '../components/AppsDropdown/';
 
 import profilePic from '../assets/images/users/avatar-1.jpg';
@@ -89,7 +87,7 @@ const Topbar = ({ hideLogo, navCssClasses, openLeftMenuCallBack, topbarDark }: T
     }, []);
     return (
         <React.Fragment>
-            <div className={`navbar-custom ${navbarCssClasses}`}>
+            <div className={`navbar-custom ${navbarCssClasses} `}>
                 <div className={containerCssClasses}>
                     {!hideLogo && (
                         <Link to="/" className="topnav-logo">
@@ -103,18 +101,6 @@ const Topbar = ({ hideLogo, navCssClasses, openLeftMenuCallBack, topbarDark }: T
                     )}
 
                     <ul className="list-unstyled topbar-menu float-end mb-0">
-                        <li className="notification-list topbar-dropdown d-xl-none">
-
-                        </li>
-                        <li className="dropdown notification-list topbar-dropdown d-none d-lg-block">
-                            <LanguageDropdown />
-                        </li>
-                        <li className="dropdown notification-list">
-
-                        </li>
-                        <li className="dropdown notification-list d-none d-sm-inline-block">
-                            <AppsDropdown />
-                        </li>
                         <li className="notification-list">
                             <button
                                 className="nav-link dropdown-toggle end-bar-toggle arrow-none btn btn-link shadow-none"
