@@ -46,7 +46,12 @@ const AccountLayout = ({ bottomLinks, children }: AccountLayoutProps): React$Ele
                     </Row>
                 </Container>
             </div>
-            <footer className="footer footer-alt">{t('2018 - 2021 © Hyper - Coderthemes.com')}</footer>
+            <footer className="footer footer-alt">
+              {t('PEDINSQ-Préstamo, Devolución e Inventario de Instrumentos Quirúrgicos')}<br/>
+              {t('Facultad de Salud')}<br/>
+              {t('Programa de Instrumentación Quirúrgicos')}
+            </footer>
+
         </>
     );
 };
