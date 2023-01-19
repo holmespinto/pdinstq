@@ -47,9 +47,9 @@ const AccountLayout = ({ bottomLinks, children }: AccountLayoutProps): React$Ele
                 </Container>
             </div>
             <footer className="footer footer-alt">
-              {t('PEDINSQ-Préstamo, Devolución e Inventario de Instrumentos Quirúrgicos')}<br/>
+              {t('PEDINSQ-Préstamo, Devolución e Inventario de Instrumentos Quirúrgica')}<br/>
               {t('Facultad de Salud')}<br/>
-              {t('Programa de Instrumentación Quirúrgicos')}
+              {t('Programa de Instrumentación Quirúrgica')}
             </footer>
 
         </>

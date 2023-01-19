@@ -8,10 +8,7 @@ import { getItemStorage } from '../pages/dashboard/components/itemStorage';
 import { showRightSidebar } from '../redux/actions';
 
 // components
-import LanguageDropdown from '../components/LanguageDropdown';
 import ProfileDropdown from '../components/ProfileDropdown';
-import AppsDropdown from '../components/AppsDropdown/';
-
 import profilePic from '../assets/images/users/avatar-1.jpg';
 import logoSmDark from '../assets/images/logo_sm_dark.png';
 import logoSmLight from '../assets/images/logo_sm.png';

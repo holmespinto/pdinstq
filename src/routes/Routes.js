@@ -1,5 +1,6 @@
 import React from 'react';
-import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import { Route, Switch,HashRouter } from 'react-router-dom';
+
 import { useSelector } from 'react-redux';
 
 import * as layoutConstants from '../constants/layout';
@@ -38,7 +39,7 @@ const Routes = (props) => {
     let Layout = getLayout();
 
     return (
-        <BrowserRouter>
+        <HashRouter>
             <Switch>
                 <Route path={publicProtectedFlattenRoutes.map((r) => r['path'])}>
                     <DefaultLayout {...props} layout={layout}>
@@ -80,7 +81,7 @@ const Routes = (props) => {
                     </Layout>
                 </Route>
             </Switch>
-        </BrowserRouter>
+        </HashRouter>
     );
 };
 

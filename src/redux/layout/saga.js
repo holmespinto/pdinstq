@@ -53,7 +53,7 @@ function* changeLayout({ payload: layout }) {
         yield call(changeBodyAttribute, 'data-layout', layout);
         if (layout === layoutConstants.LAYOUT_VERTICAL) {
             yield put(changeLeftSidebarThemeAction(layoutConstants.LEFT_SIDEBAR_THEME_DEFAULT));
-            yield put(changeSidebarTypeAction(layoutConstants.LEFT_SIDEBAR_TYPE_FIXED));
+            yield put(changeSidebarTypeAction(layoutConstants.LEFT_SIDEBAR_TYPE_CONDENSED));
         }
 
         if (layout === layoutConstants.LAYOUT_HORIZONTAL) {
