@@ -55,7 +55,10 @@ const SelectReferencias = (props) => {
     ListaInstrumentos()
   }, [ListaInstrumentos]);
 
+  //useMemo(data,[data]);
+
  /// console.log('idRef',data)
+
     return (
         <>
             <Card>

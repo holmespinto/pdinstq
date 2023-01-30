@@ -1,5 +1,5 @@
 // @flow
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect,memo } from 'react';
 import { Row, Col, Card, Button, Form, Modal } from 'react-bootstrap';
 import classNames from 'classnames';
 import { Link } from 'react-router-dom';
@@ -457,4 +457,4 @@ const TableInstrumentos = (props: referencias): React$Element<any> => {
     );
 };
 
-export default TableInstrumentos;
+export default memo(TableInstrumentos);
